@@ -4,7 +4,10 @@
 #     https://www.atlassian.com/git/tutorials/saving-changes/gitignore
 
 #docker
-.docker/.env
+.env
+.data
+.composer
+
 
 # Node artifact files
 node_modules/
@@ -50,3 +53,8 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
