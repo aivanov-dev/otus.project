@@ -1,6 +1,5 @@
-FROM php:7.4-fpm
+FROM php:8.0-fpm
 
-COPY conf.d     $PHP_INI_DIR/conf.d/
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -17,6 +16,8 @@ RUN curl -sSL https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhs
 
 RUN apt-get install -y libzip-dev zip && docker-php-ext-install zip
 RUN usermod -u 1000 www-data
+
+COPY conf.d     $PHP_INI_DIR/conf.d/
 
 EXPOSE 9000
 
