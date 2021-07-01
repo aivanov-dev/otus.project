@@ -1,5 +1,7 @@
 <?php
 
+use VladimirYuldashev\LaravelQueueRabbitMQ\LaravelQueueRabbitMQServiceProvider;
+
 return [
 
     /*
@@ -161,6 +163,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        LaravelQueueRabbitMQServiceProvider::class,
 
         /*
          * Package Service Providers...
