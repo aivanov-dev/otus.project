@@ -72,14 +72,15 @@ services:
       - app-network
 
   rabbit:
+    container_name: ${COMPOSE_PROJECT_NAME}_rabbitmq
     image: rabbitmq:3-management
     networks:
       - app-network
     environment:
-      RABBITMQ_DEFAULT_USER: ${RABBIT_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBIT_PASSWORD}
+      RABBITMQ_DEFAULT_USER: ${RABBIT_MQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBIT_MQ_PASSWORD}
     ports:
-      - "${INTERFACE:-127.0.0.1}:${RABBIT_UI_PORT}:15672"
+      - "${INTERFACE:-127.0.0.1}:${RABBIT_MQ_UI_PORT}:15672"
 volumes:
   socket:
     driver: local
