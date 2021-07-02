@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,7 +17,6 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->isLocal()) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
-        //
     }
 
     /**
@@ -26,6 +26,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->addNewCollectionMacros();
+    }
+
+    /**
+     * Collection method "countWithCondition" can be used in achievement setup.
+     *
+     * @return void
+     */
+    private function addNewCollectionMacros(): void
+    {
+        Collection::macro('countWithCondition', function (string $property, string $value, string $operator = '==') {
+            $filteredCollection = $this->filter(function ($item, $key) use ($property, $value, $operator) {
+                return version_compare($item->{$property}, $value, $operator);
+            });
+
+            return $filteredCollection->count();
+        });
     }
 }

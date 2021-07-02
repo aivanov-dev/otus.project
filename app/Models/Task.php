@@ -2,26 +2,45 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Task extends Model
 {
     use HasFactory;
 
+    /**
+     * @var string[]
+     */
     protected $fillable = ['title', 'description', 'exercise_id'];
 
-    public function exercise(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    /**
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * @return BelongsTo
+     */
+    public function exercise(): BelongsTo
     {
         return $this->belongsTo(Exercise::class);
     }
 
-    public function results(): \Illuminate\Database\Eloquent\Relations\HasMany
+    /**
+     * @return HasMany
+     */
+    public function results(): HasMany
     {
         return $this->hasMany(TaskResult::class);
     }
 
-    public function skills(): \Illuminate\Database\Eloquent\Relations\HasMany
+    /**
+     * @return HasMany
+     */
+    public function skills(): HasMany
     {
         return $this->hasMany(TaskSkill::class);
     }
