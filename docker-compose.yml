@@ -81,6 +81,19 @@ services:
       RABBITMQ_DEFAULT_PASS: ${RABBIT_MQ_PASSWORD}
     ports:
       - "${INTERFACE:-127.0.0.1}:${RABBIT_MQ_UI_PORT}:15672"
+
+  redis:
+    container_name: ${COMPOSE_PROJECT_NAME}_redis
+    image: 'redis:alpine'
+    ports:
+      - '${INTERFACE:-127.0.0.1}:${REDIS_PORT:-6379}:6379'
+    volumes:
+      - './.db/sailredis:/data'
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+
 volumes:
   socket:
     driver: local
