@@ -88,11 +88,53 @@ services:
     ports:
       - '${INTERFACE:-127.0.0.1}:${REDIS_PORT:-6379}:6379'
     volumes:
-      - './.db/sailredis:/data'
+      - './.data/redis:/data'
     networks:
       - app-network
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
+
+  prometheus:
+    image: prom/prometheus:v2.28.1
+    container_name: ${COMPOSE_PROJECT_NAME}_prometheus
+    user: root
+    volumes:
+      - ./.docker/images/prometheus:/etc/prometheus
+      - ./.data/prometheus:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+    ports:
+      - '${INTERFACE:-127.0.0.1}:${PROMETHEUS_PORT:-9090}:9090'
+    networks:
+      - app-network
+    labels:
+      org.label-schema.group: "monitoring"
+
+  grafana:
+    image: grafana/grafana:8.0.4
+    container_name: grafana
+    user: root
+    volumes:
+      - ./.data/grafana:/var/lib/grafana
+      - ./.docker/images/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./.docker/images/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+    environment:
+      - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+    restart: unless-stopped
+    ports:
+      - '${INTERFACE:-127.0.0.1}:${GRAFANA_PORT:-3000}:3000'
+    networks:
+      - app-network
+    labels:
+      org.label-schema.group: "monitoring"
 
 volumes:
   socket:
