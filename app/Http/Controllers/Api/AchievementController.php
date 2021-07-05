@@ -2,96 +2,146 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\AchievementCollection;
+use Exception;
 use App\Models\Achievement;
-use App\Virtual\Models\Project;
-use App\Virtual\Resources\ProjectResource;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\AchievementCollection;
+use App\Http\Requests\Achievements\ValidateStoreRequest;
 use App\Http\Requests\Achievements\ValidateIndexRequest;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Http\Requests\Achievements\ValidateUpdateRequest;
 
 class AchievementController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param ValidateIndexRequest $request
+     *
+     * @return JsonResponse
      */
-    public function index(ValidateIndexRequest $request)
+    public function index(ValidateIndexRequest $request): JsonResponse
     {
+        //ALSO NEED SWAGGER DOCS AND EXPRESSION VALIDATION, AND MAYBE EVENT AND EVENT LISTENER FOR PROCESSING!
         $page = $request->get('page') ?? AchievementCollection::PAGE;
         $perPage = $request->get('per-page') ?? AchievementCollection::PER_PAGE;
-        $achievements = Achievement::limit($perPage)->offset($page)->get();
+        $offset = ($page - AchievementCollection::PAGE) * $perPage;
 
-        $mediator = new AchievementCollection($achievements, $page, $perPage);
+        $achievements = Achievement::limit($perPage)->offset($offset)->get();
 
-        var_dump($mediator);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json(
+            new AchievementCollection($achievements, $page, $perPage)
+        )->setStatusCode(200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
+     * @param ValidateStoreRequest $request
      *
-     * @param  \App\Models\Achievement  $achievement
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function show(Achievement $achievement)
+    public function store(ValidateStoreRequest $request): JsonResponse
     {
-        //
-    }
+        try {
+            Achievement::create([
+                'name' => $request->name,
+                'slug' => $request->slug ?? null,
+                'description' => $request->description ?? null,
+                'expression' => $request->expression
+            ]);
+        } catch (Exception $e) {
+            return response()->json(
+                [
+                    'status' => 'error',
+                    'message' => $e->getMessage()
+                ]
+            )->setStatusCode(500);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Achievement  $achievement
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Achievement $achievement)
-    {
-        //
+        return response()->json(
+            [
+                'status' => 'Success',
+                'message' => 'Achievement has been successfully created!'
+            ]
+        )->setStatusCode(201);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Achievement  $achievement
-     * @return \Illuminate\Http\Response
+     * @param ValidateUpdateRequest $request
+     * @param Achievement $achievement
+     *
+     * @return JsonResponse
      */
-    public function update(Request $request, Achievement $achievement)
+    public function update(ValidateUpdateRequest $request, Achievement $achievement): JsonResponse
     {
-        //
+        $data = array_filter([
+            'name' => $request->name,
+            'slug' => $request->slug,
+            'description' => $request->description,
+            'expression' => $request->expression
+        ]);
+
+        if (!$data) {
+            return response()->json(
+                [
+                    'status' => 'error',
+                    'message' => 'No data to update!'
+                ]
+            )->setStatusCode(400);
+        }
+
+        try {
+            $achievement->update(array_filter([
+                'name' => $request->name,
+                'slug' => $request->slug,
+                'description' => $request->description,
+                'expression' => $request->expression
+            ]));
+        } catch (Exception $e) {
+            return response()->json(
+                [
+                    'status' => 'error',
+                    'message' => $e->getMessage()
+                ]
+            )->setStatusCode(500);
+        }
+
+        return response()->json(
+            [
+                'status' => 'Success',
+                'message' => 'Achievement has been successfully updated!'
+            ]
+        )->setStatusCode(200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Achievement  $achievement
-     * @return \Illuminate\Http\Response
+     * @param Achievement $achievement
+     *
+     * @return JsonResponse
      */
-    public function destroy(Achievement $achievement)
+    public function destroy(Achievement $achievement): JsonResponse
     {
-        //
+        try {
+            $achievement->delete();
+        } catch (Exception $e) {
+            return response()->json(
+                [
+                    'status' => 'error',
+                    'message' => $e->getMessage()
+                ]
+            )->setStatusCode(500);
+        }
+
+        return response()->json(
+            [
+                'status' => 'Success',
+                'message' => 'Achievement has been successfully removed!'
+            ]
+        )->setStatusCode(200);
     }
 }
