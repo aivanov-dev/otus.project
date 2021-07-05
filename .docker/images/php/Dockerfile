@@ -7,7 +7,7 @@ RUN apt-get update && \
     && docker-php-ext-install sockets \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && docker-php-ext-install pdo pdo_mysql pdo_pgsql && pecl install ds\
-    && pecl install xdebug && docker-php-ext-enable xdebug
+    && pecl install xdebug && pecl install redis && docker-php-ext-enable xdebug redis
 
 RUN curl -sSL https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64 -o mhsendmail \
     && chmod +x mhsendmail \
