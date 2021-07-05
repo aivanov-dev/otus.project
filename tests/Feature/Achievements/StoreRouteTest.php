@@ -65,6 +65,24 @@ class StoreRouteTest extends TestCase
                 'description' => 'The description must be a string.',
                 'expression' => 'The expression must be a string.'
             ]);
+
+        $response = $this->post(
+            '/api/achievements',
+            [
+                'name' => 5,
+                'slug' => ['dsf', null],
+                'description' => 333,
+                'expression' => 'model.delete()'
+            ],
+            ['Accept' => 'application/json']
+        );
+
+        $response
+            ->assertStatus(422)
+            ->assertSee(['message' => 'The given data was invalid'])
+            ->assertSee([
+                'expression' => 'Expression language statement must not contain save, update, create, make, delete and push keywords for safety reasons!'
+            ]);
     }
 
     /**
@@ -86,8 +104,10 @@ class StoreRouteTest extends TestCase
         $response
             ->assertStatus(201)
             ->assertSee([
-                "status" => "Success",
-                "message" => "Achievement has been successfully created!"
+                'name' => 'NAME',
+                'slug' => 'SLUG',
+                'description' => 'DESCRIPTION',
+                'expression' => 'EXPRESSION'
             ]);
 
         $this->assertDatabaseHas(Achievement::class, [

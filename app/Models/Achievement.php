@@ -27,7 +27,9 @@ class Achievement extends Model
     {
         parent::boot();
         static::saving(function ($model) {
-            $model->attributes['slug'] = Str::slug($model->attributes['name'], '-');
+            if (empty($model->attributes['slug'])) {
+                $model->attributes['slug'] = Str::lower(Str::slug($model->attributes['name'], '-'));
+            }
         });
     }
 }

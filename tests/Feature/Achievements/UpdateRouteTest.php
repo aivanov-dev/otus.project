@@ -70,6 +70,21 @@ class UpdateRouteTest extends TestCase
                 'description' => 'The description must be a string.',
                 'expression' => 'The expression must be a string.'
             ]);
+
+        $response = $this->put(
+            "/api/achievements/{$achievement->id}",
+            [
+                'expression' => 'rogue.delete()'
+            ],
+            ['Accept' => 'application/json']
+        );
+
+        $response
+            ->assertStatus(422)
+            ->assertSee(['message' => 'The given data was invalid'])
+            ->assertSee([
+                'expression' => 'Expression language statement must not contain save, update, create, make, delete and push keywords for safety reasons!'
+            ]);
     }
 
     /**
@@ -98,8 +113,10 @@ class UpdateRouteTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertSee([
-                "status" => "Success",
-                "message" => "Achievement has been successfully updated!"
+                'name' => 'NAME',
+                'slug' => 'SLUG-NEW',
+                'description' => 'DESCRIPTION',
+                'expression' => 'EXPRESSION-NEW'
             ]);
 
         $this->assertDatabaseHas(Achievement::class, [

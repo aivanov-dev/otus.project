@@ -26,11 +26,7 @@ class DeleteRouteTest extends TestCase
 
         $response = $this->delete("/api/achievements/{$achievement->id}");
         $response
-            ->assertStatus(200)
-            ->assertSee([
-                'status' => 'Success',
-                'message' => 'Achievement has been successfully removed!'
-            ]);
+            ->assertStatus(204);
 
         $this->assertDatabaseMissing(Achievement::class, [
             'name' => 'NAME!',

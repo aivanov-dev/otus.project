@@ -31,13 +31,4 @@ class ValidateIndexRequest extends FormRequest
             'per-page' => 'sometimes|required|numeric|gte:1',
         ];
     }
-
-//    #[ArrayShape(['page' => "string", 'per-page' => "string"])]
-//    public function messages(): array
-//    {
-//        return [
-//            'page' => 'If page is present it must be numeric and greater than 0!',
-//            'per-page' => 'If per-page is present it must be numeric and greater than 0!',
-//        ];
-//    }
 }

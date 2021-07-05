@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Achievements;
 
+use App\Rules\SafeExpressionLanguage;
 use JetBrains\PhpStorm\ArrayShape;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -29,21 +30,7 @@ class ValidateStoreRequest extends FormRequest
             'name' => 'required|string',
             'slug' => 'sometimes|required|nullable|string',
             'description' => 'sometimes|required|nullable|string',
-            'expression' => 'required|string'
+            'expression' => ['required', 'string', new SafeExpressionLanguage()]
         ];
     }
-
-//    /**
-//     * @return string[]
-//     */
-//    #[ArrayShape(['name' => "string", 'slug' => "string", 'description' => "string", 'expression' => "string"])]
-//    public function messages(): array
-//    {
-//        return [
-//            'name' => 'Achievement name is required and must be a string!',
-//            'slug' => 'Achievement slug must be a string!',
-//            'description' => 'Achievement description must be a string!',
-//            'expression' => 'Achievement expression is required and must be a string!'
-//        ];
-//    }
 }
