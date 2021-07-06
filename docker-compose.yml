@@ -135,7 +135,41 @@ services:
       - app-network
     labels:
       org.label-schema.group: "monitoring"
-
+  nodeexporter:
+    image: prom/node-exporter:v1.1.2
+    container_name: ${COMPOSE_PROJECT_NAME}_nodeexporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+    restart: unless-stopped
+    networks:
+      - app-network
+    expose:
+      - 9100
+    labels:
+      org.label-schema.group: "monitoring"
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.39.2
+    container_name: ${COMPOSE_PROJECT_NAME}_cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /cgroup:/cgroup:ro
+    restart: unless-stopped
+    networks:
+      - app-network
+    expose:
+      - 8080
+    labels:
+      org.label-schema.group: "monitoring"
 volumes:
   socket:
     driver: local
