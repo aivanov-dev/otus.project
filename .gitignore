@@ -7,6 +7,7 @@
 .env
 .data
 .composer
+.config
 
 .bash_history
 
