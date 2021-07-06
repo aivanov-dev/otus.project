@@ -17,3 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::namespace('App\Http\Controllers\Api')->group(function () {
+    Route::get('/achievements/index', 'AchievementController@index');
+    Route::post('/achievements', 'AchievementController@store');
+    Route::put('/achievements/{achievement}', 'AchievementController@update');
+    Route::delete('/achievements/{achievement}', 'AchievementController@destroy');
+});
