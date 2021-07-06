@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0b526827803ebb5950254b35cab44b8",
+    "content-hash": "92614304b3e36176d049e9284b384fc0",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1026,6 +1026,69 @@
             },
             "abandoned": true,
             "time": "2017-11-06T11:00:07+00:00"
+        },
+        {
+            "name": "kalnoy/nestedset",
+            "version": "v6.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lazychaser/laravel-nestedset.git",
+                "reference": "f5351234588a20b14134980552b1bf6dccb3e733"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lazychaser/laravel-nestedset/zipball/f5351234588a20b14134980552b1bf6dccb3e733",
+                "reference": "f5351234588a20b14134980552b1bf6dccb3e733",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^7.0|^8.0",
+                "illuminate/events": "^7.0|^8.0",
+                "illuminate/support": "^7.0|^8.0",
+                "php": ">=7.1.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "7.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "v5.0.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Kalnoy\\Nestedset\\NestedSetServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kalnoy\\Nestedset\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Kalnoy",
+                    "email": "lazychaser@gmail.com"
+                }
+            ],
+            "description": "Nested Set Model for Laravel 5.7 and up",
+            "keywords": [
+                "database",
+                "hierarchy",
+                "laravel",
+                "nested sets",
+                "nsm"
+            ],
+            "support": {
+                "issues": "https://github.com/lazychaser/laravel-nestedset/issues",
+                "source": "https://github.com/lazychaser/laravel-nestedset/tree/v6.0.0"
+            },
+            "time": "2021-05-28T07:08:55+00:00"
         },
         {
             "name": "laravel/framework",
@@ -5671,16 +5734,16 @@
         },
         {
             "name": "vladimir-yuldashev/laravel-queue-rabbitmq",
-            "version": "v11.2.0",
+            "version": "v11.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vyuldashev/laravel-queue-rabbitmq.git",
-                "reference": "fed393d5ae18bb3e63a76d5bbbcafb7c10ed7726"
+                "reference": "a5649faabfd224365b7c363f5e449777316d8627"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vyuldashev/laravel-queue-rabbitmq/zipball/fed393d5ae18bb3e63a76d5bbbcafb7c10ed7726",
-                "reference": "fed393d5ae18bb3e63a76d5bbbcafb7c10ed7726",
+                "url": "https://api.github.com/repos/vyuldashev/laravel-queue-rabbitmq/zipball/a5649faabfd224365b7c363f5e449777316d8627",
+                "reference": "a5649faabfd224365b7c363f5e449777316d8627",
                 "shasum": ""
             },
             "require": {
@@ -5728,9 +5791,9 @@
             "description": "RabbitMQ driver for Laravel Queue. Supports Laravel Horizon.",
             "support": {
                 "issues": "https://github.com/vyuldashev/laravel-queue-rabbitmq/issues",
-                "source": "https://github.com/vyuldashev/laravel-queue-rabbitmq/tree/v11.2.0"
+                "source": "https://github.com/vyuldashev/laravel-queue-rabbitmq/tree/v11.3.0"
             },
-            "time": "2021-03-16T20:22:24+00:00"
+            "time": "2021-07-06T00:05:52+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
