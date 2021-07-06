@@ -60,7 +60,7 @@ services:
     volumes:
       - ./.data/.db/postgres:/var/lib/postgresql/data
     ports:
-      - "${INTERFACE:-127.0.0.1}:${DB_PORT}:5432"
+      - "${INTERFACE:-127.0.0.1}:${DB_DOCKER_PORT}:${DB_PORT}"
 
   mailhog:
     container_name: ${COMPOSE_PROJECT_NAME}_mailhog
