@@ -164,6 +164,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         LaravelQueueRabbitMQServiceProvider::class,
+        \Kalnoy\Nestedset\NestedSetServiceProvider::class,
         L5Swagger\L5SwaggerServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
