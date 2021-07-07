@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Achievements;
+namespace App\Http\Requests\TaskResults;
 
 use JetBrains\PhpStorm\ArrayShape;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ValidateIndexRequest extends FormRequest
+class ValidateUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,14 @@ class ValidateIndexRequest extends FormRequest
      *
      * @return array
      */
-    #[ArrayShape(['page' => "string", 'per-page' => "string", 'offset' => "string"])]
+    #[ArrayShape(['task_id' => "string", 'user_id' => "string", 'exercise_group_id' => "string", 'assessment' => "string"])]
     public function rules(): array
     {
         return [
-            'page' => 'sometimes|required|numeric|gte:1',
-            'per-page' => 'sometimes|required|numeric|gte:1',
+            'task_id' => 'sometimes|required|string',
+            'user_id' => 'sometimes|required|string',
+            'exercise_group_id' => 'sometimes|required|string',
+            'assessment' => 'sometimes|required',
         ];
     }
 }
