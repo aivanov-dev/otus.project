@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 use Superbalist\LaravelPrometheusExporter\PrometheusExporter;
 
 class RequestAnalyst
@@ -41,7 +42,7 @@ class RequestAnalyst
         return config('prometheus.metrics_route_path') === $request->path();
     }
 
-    private function incRequestCount(Request $request, Response $response): void
+    private function incRequestCount(Request $request, SymfonyResponse $response): void
     {
         $this->exporter->getOrRegisterCounter(
             'request_count',
@@ -50,7 +51,7 @@ class RequestAnalyst
         )->inc([$request->method(), $response->getStatusCode(), $request->route()?->uri(), $request->getRequestUri()]);
     }
 
-    private function observeResponseTime(Request $request, Response $response): void
+    private function observeResponseTime(Request $request, SymfonyResponse $response): void
     {
         $duration = sprintf("%.2f", microtime(true) - LARAVEL_START);
         $this->exporter->getOrRegisterHistogram(
