@@ -34,7 +34,6 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (\Throwable $e) {
-            app('prometheus')->getOrRegisterCounter('exceptions', 'count of unhandled exceptions')->inc();
         });
     }
 }
