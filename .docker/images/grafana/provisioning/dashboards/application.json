@@ -15,7 +15,7 @@
     "editable": true,
     "gnetId": null,
     "graphTooltip": 0,
-    "id": 9,
+    "id": 2,
     "links": [],
     "panels": [
         {
@@ -253,10 +253,10 @@
             "targets": [
                 {
                     "exemplar": true,
-                    "expr": "increase(app_request_count{request_code=~\"5..|4..\"}[60s])",
+                    "expr": "sum by (response_code) (increase(app_request_count{response_code=~\"5..|4..\"}[60s]))",
                     "instant": false,
-                    "interval": "",
-                    "legendFormat": "{{request_route}} - {{ request_code }}",
+                    "interval": "2s",
+                    "legendFormat": "{{ response_code }}",
                     "refId": "A"
                 }
             ],
@@ -272,12 +272,12 @@
         "list": []
     },
     "time": {
-        "from": "now-6h",
+        "from": "now-1h",
         "to": "now"
     },
     "timepicker": {},
     "timezone": "browser",
     "title": "Application",
     "uid": "D_i9aWi7k",
-    "version": 20
+    "version": 2
 }
