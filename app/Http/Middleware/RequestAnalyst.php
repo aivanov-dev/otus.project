@@ -29,7 +29,7 @@ class RequestAnalyst
             'request_count',
             'Count of requests',
             ['request_type', 'request_code', 'request_route', 'request_uri']
-        )->inc([$request->method(), $response->getStatusCode(), $request->route()->uri(), $request->getRequestUri()]);
+        )->inc([$request->method(), $response->getStatusCode(), $request->route()?->uri(), $request->getRequestUri()]);
 
         $duration = sprintf("%.2f", microtime(true) - LARAVEL_START);
         $this->exporter->getOrRegisterHistogram(
@@ -38,7 +38,7 @@ class RequestAnalyst
             ['request_type', 'request_code', 'request_route', 'request_uri'],
         )->observe(
             (float)$duration,
-            [$request->method(), $response->getStatusCode(), $request->route()->uri(), $request->getRequestUri()]
+            [$request->method(), $response->getStatusCode(), $request->route()?->uri(), $request->getRequestUri()]
         );
         return $response;
     }
