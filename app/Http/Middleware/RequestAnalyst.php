@@ -27,7 +27,6 @@ class RequestAnalyst
     {
         /**@var \Illuminate\Http\Response $response */
         $response = $next($request);
-
         if (!$this->isMetricPage($request)) {
             $this->incRequestCount($request, $response);
             $this->observeResponseTime($request, $response);
@@ -47,7 +46,7 @@ class RequestAnalyst
         $this->exporter->getOrRegisterCounter(
             'request_count',
             'Count of requests',
-            ['request_type', 'response_code', 'request_route', 'request_uri']
+            ['method', 'code', 'route', 'uri']
         )->inc([$request->method(), $response->getStatusCode(), $request->route()?->uri(), $request->getRequestUri()]);
     }
 
@@ -57,7 +56,7 @@ class RequestAnalyst
         $this->exporter->getOrRegisterHistogram(
             'response_time_seconds',
             'The response time of a request.',
-            ['request_type', 'response_code', 'request_route', 'request_uri'],
+            ['method', 'code', 'route', 'uri'],
         )->observe(
             (float)$duration,
             [$request->method(), $response->getStatusCode(), $request->route()?->uri(), $request->getRequestUri()]

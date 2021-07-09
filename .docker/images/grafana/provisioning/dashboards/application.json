@@ -93,10 +93,10 @@
             "targets": [
                 {
                     "exemplar": true,
-                    "expr": "histogram_quantile(0.5, sum(rate(app_response_time_seconds_bucket[5m])) by (request_type, le))",
+                    "expr": "histogram_quantile(0.5, sum(rate(app_response_time_seconds_bucket[5m])) by (method, le))",
                     "hide": false,
                     "interval": "",
-                    "legendFormat": "{{request_type}}",
+                    "legendFormat": "{{method}}",
                     "refId": "A"
                 },
                 {
@@ -187,10 +187,10 @@
             "targets": [
                 {
                     "exemplar": true,
-                    "expr": "sum by (request_type) (rate(app_request_count[5m]))",
+                    "expr": "sum by (method) (rate(app_request_count[5m]))",
                     "interval": "2s",
                     "intervalFactor": 1,
-                    "legendFormat": "{{ request_type }}",
+                    "legendFormat": "{{ method }}",
                     "refId": "A"
                 }
             ],
@@ -269,18 +269,18 @@
             "targets": [
                 {
                     "exemplar": true,
-                    "expr": "sum without (request_uri) (increase(app_request_count{response_code=~\"4..\"}[30s]))",
+                    "expr": "sum without (uri) (increase(app_request_count{code=~\"4..\"}[30s]))",
                     "instant": false,
                     "interval": "2s",
-                    "legendFormat": "{{request_type}} {{response_code}}",
+                    "legendFormat": "{{method}} {{response_code}}",
                     "refId": "Client Errors"
                 },
                 {
                     "exemplar": true,
-                    "expr": "sum without (request_uri) (increase(app_request_count{response_code=~\"5..\"}[30s]))",
+                    "expr": "sum without (uri) (increase(app_request_count{code=~\"5..\"}[30s]))",
                     "hide": false,
                     "interval": "2s",
-                    "legendFormat": "{{request_type}} {{response_code}}",
+                    "legendFormat": "{{method}} {{response_code}}",
                     "refId": "Server Errors"
                 }
             ],
@@ -303,5 +303,5 @@
     "timezone": "browser",
     "title": "Application",
     "uid": "D_i9aWi7k",
-    "version": 11
+    "version": 1
 }
