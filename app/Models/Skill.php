@@ -11,8 +11,10 @@ class Skill extends Model
 
     protected $fillable = ['code', 'name'];
 
-    public function tasks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public $timestamps = false;
+
+    public function influences(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(TaskSkill::class);
+        return $this->hasMany(Influence::class);
     }
 }

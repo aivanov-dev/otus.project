@@ -40,8 +40,8 @@ class Task extends Model
     /**
      * @return HasMany
      */
-    public function skills(): HasMany
+    public function influences(): HasMany
     {
-        return $this->hasMany(TaskSkill::class);
+        return $this->hasMany(Influence::class);
     }
 }

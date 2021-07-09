@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTaskSkillsTable extends Migration
+class CreateInfluencesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTaskSkillsTable extends Migration
      */
     public function up()
     {
-        Schema::create('task_skills', function (Blueprint $table) {
+        Schema::create('influences', function (Blueprint $table) {
             $table->id();
             $table->foreignId('skill_id')
                 ->constrained('skills')
@@ -23,7 +23,7 @@ class CreateTaskSkillsTable extends Migration
                 ->constrained('tasks')
                 ->onDelete('CASCADE')
                 ->onUpdate('CASCADE');
-            $table->tinyInteger('influence');
+            $table->tinyInteger('value');
         });
     }
 
@@ -34,6 +34,6 @@ class CreateTaskSkillsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('task_skills');
+        Schema::dropIfExists('influences');
     }
 }
