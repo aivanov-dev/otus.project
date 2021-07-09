@@ -26,11 +26,11 @@ class SkillLevelResource
 
     /**
      * @OA\Property(
-     *     title="level",
+     *     title="experience",
      *     example="100"
      * )
      *
-     * @var int $level
+     * @var int $experience
      */
-    public int $level;
+    public int $experience;
 }

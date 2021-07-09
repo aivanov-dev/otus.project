@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Skills\GetLevelNameByLevelRequest;
+use App\Http\Requests\Skills\GetLevelNameByExperienceRequest;
 use App\Http\Requests\Skills\StoreSkillRequest;
 use App\Http\Requests\Skills\UpdateSkillRequest;
 use App\Http\Resources\SkillResource;
@@ -264,11 +264,11 @@ class SkillController extends Controller
      *     ),
      * )
      *
-     * @param GetLevelNameByLevelRequest $request
+     * @param GetLevelNameByExperienceRequest $request
      * @return JsonResponse
      */
-    public function getLevelName(GetLevelNameByLevelRequest $request): JsonResponse
+    public function getLevelName(GetLevelNameByExperienceRequest $request): JsonResponse
     {
-        return new JsonResponse($this->skillLevelRepository->getLevelByValue($request->get('level')));
+        return new JsonResponse($this->skillLevelRepository->getLevelByExperience($request->get('experience')));
     }
 }

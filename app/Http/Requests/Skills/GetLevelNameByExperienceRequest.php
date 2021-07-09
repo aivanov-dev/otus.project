@@ -4,7 +4,7 @@ namespace App\Http\Requests\Skills;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetLevelNameByLevelRequest extends FormRequest
+class GetLevelNameByExperienceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class GetLevelNameByLevelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'level' => 'required|integer'
+            'experience' => 'required|integer'
         ];
     }
 }

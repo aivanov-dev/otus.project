@@ -7,5 +7,5 @@ namespace App\Repositories\Interfaces;
 interface SkillLevelRepositoryInterface
 {
     public function all(): array;
-    public function getLevelByValue(int $level): array;
+    public function getLevelByExperience(int $experience): array;
 }
