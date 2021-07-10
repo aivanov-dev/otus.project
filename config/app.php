@@ -168,6 +168,7 @@ return [
         L5Swagger\L5SwaggerServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         \Rebing\GraphQL\GraphQLServiceProvider::class,
+        \Superbalist\LaravelPrometheusExporter\PrometheusServiceProvider::class,
 
         /*
          * Package Service Providers...
