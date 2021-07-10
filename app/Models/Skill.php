@@ -10,7 +10,6 @@ class Skill extends Model
     use HasFactory;
 
     protected $fillable = ['code', 'name'];
-
     public $timestamps = false;
 
     public function influences(): \Illuminate\Database\Eloquent\Relations\HasMany

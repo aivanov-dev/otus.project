@@ -23,4 +23,21 @@ Route::namespace('App\Http\Controllers\Api')->group(function () {
     Route::post('/achievements', 'AchievementController@store');
     Route::put('/achievements/{achievement}', 'AchievementController@update');
     Route::delete('/achievements/{achievement}', 'AchievementController@destroy');
+
+    // Skills and levels
+    Route::prefix('/skills')->group(function() {
+        Route::get('/', 'SkillController@all');
+        Route::post('/', 'SkillController@store');
+
+        Route::prefix('/{id}')->group(function() {
+            Route::get('/', 'SkillController@get');
+            Route::patch('/', 'SkillController@update');
+            Route::delete('/', 'SkillController@delete');
+        });
+
+        Route::prefix('/levels')->group(function() {
+            Route::get('/all', 'SkillController@getAllLevels');
+            Route::get('/search', 'SkillController@getLevelName');
+        });
+    });
 });
