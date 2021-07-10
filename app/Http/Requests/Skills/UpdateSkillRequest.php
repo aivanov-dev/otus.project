@@ -4,6 +4,27 @@ namespace App\Http\Requests\Skills;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *      title="Update skill request",
+ *      description="Update skill request body data",
+ *      type="object",
+ *
+ *      @OA\Property(
+ *          property="name",
+ *          title="name",
+ *          description="New name of the skill",
+ *          example="Чтение"
+ *      ),
+ *
+ *      @OA\Property(
+ *          property="code",
+ *          title="code",
+ *          description="New code of the skill",
+ *          example="reading"
+ *      ),
+ * )
+ */
 class UpdateSkillRequest extends FormRequest
 {
     /**

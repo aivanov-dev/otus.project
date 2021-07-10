@@ -4,6 +4,26 @@ namespace App\Http\Requests\Skills;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @OA\Schema(
+ *      title="Store skill request",
+ *      description="Store skill request body data",
+ *      type="object",
+ *      required={"name", "code"},
+ *
+ *      @OA\Property(
+ *         property="name",
+ *         title="name",
+ *         example="Письмо"
+ *     ),
+ *
+ *     @OA\Property(
+ *         property="code",
+ *         title="code",
+ *         example="writing"
+ *     ),
+ * )
+ */
 class StoreSkillRequest extends FormRequest
 {
     /**

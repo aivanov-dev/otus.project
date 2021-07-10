@@ -479,7 +479,7 @@
                 }
             }
         },
-        "/api/skills/levels": {
+        "/api/skills/levels/all": {
             "get": {
                 "tags": [
                     "Skills"
@@ -538,6 +538,83 @@
     },
     "components": {
         "schemas": {
+            "StoreSkillRequest": {
+                "title": "Store skill request",
+                "description": "Store skill request body data",
+                "required": [
+                    "name",
+                    "code"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "example": "Письмо"
+                    },
+                    "code": {
+                        "title": "code",
+                        "example": "writing"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateSkillRequest": {
+                "title": "Update skill request",
+                "description": "Update skill request body data",
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "New name of the skill",
+                        "example": "Чтение"
+                    },
+                    "code": {
+                        "title": "code",
+                        "description": "New code of the skill",
+                        "example": "reading"
+                    }
+                },
+                "type": "object"
+            },
+            "SkillLevelResource": {
+                "title": "SkillLevelResource",
+                "description": "Skill level resource",
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "example": "A1 - Beginner"
+                    },
+                    "experience": {
+                        "title": "experience",
+                        "type": "int",
+                        "example": "100"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "SkillLevelResource"
+                }
+            },
+            "SkillResource": {
+                "title": "SkillResource",
+                "description": "Skill resource",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "example": "3"
+                    },
+                    "name": {
+                        "title": "name",
+                        "example": "Чтение"
+                    },
+                    "code": {
+                        "title": "code",
+                        "example": "reading"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "SkillResource"
+                }
+            },
             "Achievement": {
                 "title": "Achievement",
                 "description": "Achievement model",
@@ -716,51 +793,6 @@
                     "name": "ProjectResource"
                 }
             },
-            "SkillLevelResource": {
-                "title": "SkillLevelResource",
-                "description": "Skill level resource",
-                "properties": {
-                    "name": {
-                        "title": "name",
-                        "type": "string",
-                        "example": "A1 - Beginner"
-                    },
-                    "level": {
-                        "title": "level",
-                        "type": "integer",
-                        "example": "100"
-                    }
-                },
-                "type": "object",
-                "xml": {
-                    "name": "SkillLevelResource"
-                }
-            },
-            "SkillResource": {
-                "title": "SkillResource",
-                "description": "Skill resource",
-                "properties": {
-                    "id": {
-                        "title": "id",
-                        "type": "integer",
-                        "example": "3"
-                    },
-                    "name": {
-                        "title": "name",
-                        "type": "string",
-                        "example": "Чтение"
-                    },
-                    "code": {
-                        "title": "code",
-                        "type": "string",
-                        "example": "reading"
-                    }
-                },
-                "type": "object",
-                "xml": {
-                    "name": "SkillResource"
-                }
-            },
             "StoreAchievementRequest": {
                 "title": "Store achievement request",
                 "description": "Store achievement request body data",
@@ -817,48 +849,6 @@
                         "type": "integer",
                         "format": "int64",
                         "example": 1
-                    }
-                },
-                "type": "object"
-            },
-            "StoreSkillRequest": {
-                "title": "Store skill request",
-                "description": "Store skill request body data",
-                "required": [
-                    "name",
-                    "code"
-                ],
-                "properties": {
-                    "name": {
-                        "title": "name",
-                        "description": "Name of the new skill",
-                        "type": "string",
-                        "example": "Чтение"
-                    },
-                    "code": {
-                        "title": "code",
-                        "description": "Code of the new skill",
-                        "type": "string",
-                        "example": "reading"
-                    }
-                },
-                "type": "object"
-            },
-            "UpdateSkillRequest": {
-                "title": "Update skill request",
-                "description": "Update skill request body data",
-                "properties": {
-                    "name": {
-                        "title": "name",
-                        "description": "New name of the skill",
-                        "type": "string",
-                        "example": "Чтение"
-                    },
-                    "code": {
-                        "title": "code",
-                        "description": "New code of the skill",
-                        "type": "string",
-                        "example": "reading"
                     }
                 },
                 "type": "object"

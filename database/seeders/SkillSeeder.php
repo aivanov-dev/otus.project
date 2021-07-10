@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Skill;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 
 class SkillSeeder extends Seeder
 {
@@ -14,12 +15,15 @@ class SkillSeeder extends Seeder
      */
     public function run()
     {
-        Skill::upsert([
-            ['code' => 'reading', 'name' => 'Чтение'],
-            ['code' => 'writing', 'name' => 'Письмо'],
-            ['code' => 'speaking', 'name' => 'Говорение'],
-            ['code' => 'listening', 'name' => 'Аудирование'],
-            ['code' => 'grammar', 'name' => 'Грамматика']
-        ], ['code'], ['name']);
+        Collection::make([
+            'reading'   => 'Письмо',
+            'listening' => 'Аудирование',
+            'grammar'   => 'Грамматика',
+            'speaking'  => 'Говорение',
+            'writing'   => 'Чтение',
+        ])->each(fn($item, $key) => Skill::create([
+            'code' => $key,
+            'name' => $item
+        ]));
     }
 }
