@@ -22,6 +22,7 @@
 * Адрес: `${INTERFACE}:${PROMETHEUS_PORT}`
 * Адрес с таргетами: `${INTERFACE}:${PROMETHEUS_PORT}/targets`
 * Адрес для сбора метрик приложения `${INTERFACE}/metrics`
+* [Библиотека для работы](https://github.com/Superbalist/laravel-prometheus-exporter)
 * Метрики:
     * `app_request_count` - количество запросов.
     * `app_response_time_seconds` - длительность запроса
