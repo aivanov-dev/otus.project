@@ -15,5 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(AchievementsTableSeeder::class);
         $this->call(ExerciseGroupSeeder::class);
+        $this->call(SkillSeeder::class);
+        $this->call(TaskSeeder::class);
     }
 }

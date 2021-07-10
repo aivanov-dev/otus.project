@@ -8,6 +8,8 @@
 .data
 .composer
 .config
+.db
+.ssh
 
 .bash_history
 
