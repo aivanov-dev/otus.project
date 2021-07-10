@@ -1,7 +1,5 @@
 <?php
 
-use Superbalist\LaravelPrometheusExporter\PrometheusFacade;
-use Superbalist\LaravelPrometheusExporter\PrometheusServiceProvider;
 use VladimirYuldashev\LaravelQueueRabbitMQ\LaravelQueueRabbitMQServiceProvider;
 
 return [
@@ -169,7 +167,8 @@ return [
         \Kalnoy\Nestedset\NestedSetServiceProvider::class,
         L5Swagger\L5SwaggerServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        PrometheusServiceProvider::class,
+        \Rebing\GraphQL\GraphQLServiceProvider::class,
+        \Superbalist\LaravelPrometheusExporter\PrometheusServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -237,7 +236,7 @@ return [
         'URL'          => Illuminate\Support\Facades\URL::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
-        'Prometheus'   => PrometheusFacade::class
+        'Prometheus'   => \Superbalist\LaravelPrometheusExporter\PrometheusFacade::class,
 
     ],
 
