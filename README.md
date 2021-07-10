@@ -26,3 +26,61 @@
 * Метрики:
     * `app_request_count` - количество запросов.
     * `app_response_time_seconds` - длительность запроса
+
+## GraphQL
+
+* Адрес: `${INTERFACE}/graphiql`
+* [Библиотека для работы](https://github.com/rebing/graphql-laravel)
+
+### Примеры:
+
+* Задача с влияниями и навыками:
+
+```
+{
+  task(id: 1) {
+    id
+    influences {
+      value
+      id
+      skill {
+        name
+        code
+      }
+    }
+  }
+}
+
+```
+
+* Влияние с задачей и навыком
+
+```
+{
+  influence(id: 1) {
+    value
+    task {
+      title
+      description
+    }
+    skill {
+      name
+    }
+  }
+}
+```
+
+* Все навыки, их влияния и задачи
+
+```
+{
+  skills{
+    name,
+    influences{
+      task{
+        title
+      }
+    }
+  }
+}
+```
