@@ -14,6 +14,7 @@
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
         "predis/predis": "^1.1",
+        "rebing/graphql-laravel": "^7.2",
         "superbalist/laravel-prometheus-exporter": "^1.0",
         "symfony/expression-language": "^5.3",
         "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.2"
