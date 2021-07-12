@@ -15,7 +15,7 @@
         "laravel/framework": "^8.40",
         "laravel/tinker": "^2.5",
         "symfony/expression-language": "^5.3",
-        "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.2"
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",

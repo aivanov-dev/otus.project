@@ -80,7 +80,8 @@ services:
       RABBITMQ_DEFAULT_USER: ${RABBIT_MQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBIT_MQ_PASSWORD}
     ports:
-      - "${INTERFACE:-127.0.0.1}:${RABBIT_MQ_UI_PORT}:15672"
+      - "${RABBIT_MQ_PORT_EXTERNAL}:${RABBIT_MQ_PORT}"
+      - "${RABBIT_UI_PORT_EXTERNAL}:${RABBIT_UI_PORT}"
 volumes:
   socket:
     driver: local
