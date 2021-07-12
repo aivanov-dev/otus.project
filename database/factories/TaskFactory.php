@@ -20,12 +20,13 @@ class TaskFactory extends Factory
      *
      * @return array
      */
+
     #[ArrayShape(['title' => "string", 'description' => "string"])]
     public function definition(): array
     {
         return [
-            'title' => $this->faker->word(),
-            'description' => $this->faker->sentence(),
+            'title'       => 'Task. #' . $this->faker->bothify('#?#-#?#'),
+            'description' => $this->faker->text(100)
         ];
     }
 }

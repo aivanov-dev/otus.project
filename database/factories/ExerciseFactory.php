@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Exercise;
-use JetBrains\PhpStorm\ArrayShape;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use JetBrains\PhpStorm\ArrayShape;
 
 class ExerciseFactory extends Factory
 {
@@ -15,16 +15,11 @@ class ExerciseFactory extends Factory
      */
     protected $model = Exercise::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    #[ArrayShape(['name' => "string"])]
+    #[ArrayShape(['name' => "bool"])]
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word(),
+            'name' => 'Ex. #' . $this->faker->bothify('#?#-#?#')
         ];
     }
 }

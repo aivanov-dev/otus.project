@@ -6,6 +6,176 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/achievements/index": {
+            "get": {
+                "tags": [
+                    "Achievements"
+                ],
+                "summary": "Get list of achievements with pagination",
+                "description": "Get list of achievements with pagination",
+                "operationId": "getAchievementList",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": "1"
+                        }
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "Number of achievement per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": "10"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IndexAchievementResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Bad input data"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/api/achievements": {
+            "post": {
+                "tags": [
+                    "Achievements"
+                ],
+                "summary": "Store new achievements",
+                "description": "Returns achievement data",
+                "operationId": "storeAchievement",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreAchievementRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Achievement"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Bad input data"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/api/achievements/{id}": {
+            "put": {
+                "tags": [
+                    "Achievements"
+                ],
+                "summary": "Update existing achievements",
+                "description": "Update only those fields you want, no need to send all fields.",
+                "operationId": "updateAchievement",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Achievement ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreAchievementRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Achievement"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Bad input data"
+                    },
+                    "400": {
+                        "description": "No data to update, empty request body"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Achievements"
+                ],
+                "summary": "Delete achievements",
+                "description": "Delete achievements by it id.",
+                "operationId": "deleteAchievement",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Achievement ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Bad input data"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
         "/projects": {
             "get": {
                 "tags": [
@@ -152,10 +322,621 @@
                     }
                 }
             }
+        },
+        "/api/skills": {
+            "get": {
+                "tags": [
+                    "Skills"
+                ],
+                "summary": "Get list of all skills",
+                "description": "Get list of all skills",
+                "operationId": "getAllSkills",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SkillResource"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Skills"
+                ],
+                "summary": "Store new skill",
+                "description": "Returns created skill",
+                "operationId": "storeSkill",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreSkillRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SkillResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad input data"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/api/skills/{id}": {
+            "get": {
+                "tags": [
+                    "Skills"
+                ],
+                "summary": "Get skill by id",
+                "description": "Get skill by id",
+                "operationId": "getSkillById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the skill",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": "3"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SkillResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Skill not found"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Skills"
+                ],
+                "summary": "Delete skill",
+                "description": "Returns operation status",
+                "operationId": "deleteSkill",
+                "responses": {
+                    "204": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Skill not found"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Skills"
+                ],
+                "summary": "Update skill",
+                "description": "Returns updated skill",
+                "operationId": "updateSkill",
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateSkillRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SkillResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad input data"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/api/skills/levels/all": {
+            "get": {
+                "tags": [
+                    "Skills"
+                ],
+                "summary": "Get all skills levels",
+                "description": "Returns list of skills levels",
+                "operationId": "getAllSkillsLevels",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SkillLevelResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad input data"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/api/skills/levels/search": {
+            "get": {
+                "tags": [
+                    "Skills"
+                ],
+                "summary": "Get skills level by value",
+                "description": "Returns name of skills level",
+                "operationId": "getSkillsLevelByValue",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SkillLevelResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad input data"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get list of users",
+                "description": "Returns list of users",
+                "operationId": "getUsers",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Store new user",
+                "description": "Returns new created user",
+                "operationId": "storeUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "api/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user information",
+                "description": "Returns user data",
+                "operationId": "getUserById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/api/users/{id}": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user",
+                "description": "Returns updated user",
+                "operationId": "updateUser",
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete existing user",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "StoreSkillRequest": {
+                "title": "Store skill request",
+                "description": "Store skill request body data",
+                "required": [
+                    "name",
+                    "code"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "example": "Письмо"
+                    },
+                    "code": {
+                        "title": "code",
+                        "example": "writing"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateSkillRequest": {
+                "title": "Update skill request",
+                "description": "Update skill request body data",
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "New name of the skill",
+                        "example": "Чтение"
+                    },
+                    "code": {
+                        "title": "code",
+                        "description": "New code of the skill",
+                        "example": "reading"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreUserRequest": {
+                "title": "Store user request",
+                "description": "Store user request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "example": "David"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateUserRequest": {
+                "title": "Update user request",
+                "description": "Store user request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "example": "Sam"
+                    }
+                },
+                "type": "object"
+            },
+            "SkillLevelResource": {
+                "title": "SkillLevelResource",
+                "description": "Skill level resource",
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "example": "A1 - Beginner"
+                    },
+                    "experience": {
+                        "title": "experience",
+                        "type": "int",
+                        "example": "100"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "SkillLevelResource"
+                }
+            },
+            "SkillResource": {
+                "title": "SkillResource",
+                "description": "Skill resource",
+                "properties": {
+                    "id": {
+                        "title": "id",
+                        "example": "3"
+                    },
+                    "name": {
+                        "title": "name",
+                        "example": "Чтение"
+                    },
+                    "code": {
+                        "title": "code",
+                        "example": "reading"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "SkillResource"
+                }
+            },
+            "UserResource": {
+                "title": "UserResource",
+                "description": "User resource",
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "example": "John"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "UserResource"
+                }
+            },
+            "Achievement": {
+                "title": "Achievement",
+                "description": "Achievement model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "Name of the new achievement",
+                        "type": "string",
+                        "example": "A nice achievement"
+                    },
+                    "slug": {
+                        "title": "Slug",
+                        "description": "Slug of the new achievement. Is autogenerated from name if not pass",
+                        "type": "string",
+                        "example": "a-nice-achievement"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "description": "Description of the new achievement",
+                        "type": "string",
+                        "example": "This is new achievement's description"
+                    },
+                    "expression": {
+                        "title": "Expression",
+                        "description": "Language expression of the new achievement",
+                        "type": "string",
+                        "example": "exercise.taskResults.countWithCondition('assessment', 10)"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Achievement"
+                }
+            },
+            "Meta": {
+                "title": "Meta",
+                "description": "Meta",
+                "properties": {
+                    "page": {
+                        "title": "page",
+                        "description": "page",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "perPage": {
+                        "title": "per-page",
+                        "description": "Number of entries per page",
+                        "type": "string",
+                        "example": "10"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Meta"
+                }
+            },
             "Project": {
                 "title": "Project",
                 "description": "Project model",
@@ -217,6 +998,27 @@
                     "name": "Project"
                 }
             },
+            "IndexAchievementResource": {
+                "title": "IndexAchievementResource",
+                "description": "Achievement resource",
+                "properties": {
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Achievement"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "IndexAchievementResource"
+                }
+            },
             "ProjectResource": {
                 "title": "ProjectResource",
                 "description": "Project resource",
@@ -234,6 +1036,37 @@
                 "xml": {
                     "name": "ProjectResource"
                 }
+            },
+            "StoreAchievementRequest": {
+                "title": "Store achievement request",
+                "description": "Store achievement request body data",
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the new achievement",
+                        "type": "string",
+                        "example": "A nice achievement"
+                    },
+                    "slug": {
+                        "title": "slug",
+                        "description": "Slug of the new project",
+                        "type": "string",
+                        "example": "this-is-new-achievement's-slug"
+                    },
+                    "description": {
+                        "title": "description",
+                        "description": "Description of the new achievement",
+                        "type": "string",
+                        "example": "This is new achievement's description"
+                    },
+                    "expression": {
+                        "title": "expression",
+                        "description": "Expression of the new achievement",
+                        "type": "string",
+                        "example": "exercise.taskResults.countWithCondition('assessment', 10)"
+                    }
+                },
+                "type": "object"
             },
             "StoreProjectRequest": {
                 "title": "Store Project request",
