@@ -176,6 +176,204 @@
                 }
             }
         },
+        "/api/exercises": {
+            "get": {
+                "tags": [
+                    "Exercises"
+                ],
+                "summary": "Get list of exercises",
+                "description": "Returns list of exercises",
+                "operationId": "getExercises",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExerciseResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Exercises"
+                ],
+                "summary": "Store new exercise",
+                "description": "Returns new created exercise",
+                "operationId": "storeExercise",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreExerciseRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExerciseResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/api/exercises/{id}": {
+            "get": {
+                "tags": [
+                    "Exercises"
+                ],
+                "summary": "Get exercise information",
+                "description": "Returns exercise data",
+                "operationId": "getExerciseById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Exercise id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExerciseResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Exercises"
+                ],
+                "summary": "Update exercise",
+                "description": "Returns updated exercise",
+                "operationId": "updateExercise",
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateExerciseRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExerciseResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Exercises"
+                ],
+                "summary": "Delete existing exercise",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteExercise",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Exercise id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/projects": {
             "get": {
                 "tags": [
@@ -608,7 +806,7 @@
                 }
             }
         },
-        "api/users/{id}": {
+        "/api/users/{id}": {
             "get": {
                 "tags": [
                     "Users"
@@ -651,9 +849,7 @@
                         "description": "Error"
                     }
                 }
-            }
-        },
-        "/api/users/{id}": {
+            },
             "put": {
                 "tags": [
                     "Users"
@@ -697,7 +893,7 @@
                 }
             }
         },
-        "/user/{id}": {
+        "/api/user/{id}": {
             "delete": {
                 "tags": [
                     "Users"
@@ -740,6 +936,34 @@
     },
     "components": {
         "schemas": {
+            "StoreExerciseRequest": {
+                "title": "Store exercise request",
+                "description": "Store exercise request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "example": "Test"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateExerciseRequest": {
+                "title": "Update exercise request",
+                "description": "Store exercise request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "example": "Test some"
+                    }
+                },
+                "type": "object"
+            },
             "StoreSkillRequest": {
                 "title": "Store skill request",
                 "description": "Store skill request body data",
@@ -803,6 +1027,20 @@
                     }
                 },
                 "type": "object"
+            },
+            "ExerciseResource": {
+                "title": "ExerciseResource",
+                "description": "Exercise resource",
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "example": "Ex. #3y7-2y3"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ExerciseResource"
+                }
             },
             "SkillLevelResource": {
                 "title": "SkillLevelResource",

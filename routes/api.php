@@ -49,4 +49,13 @@ Route::namespace('App\Http\Controllers\Api')->group(function () {
         Route::put('/{id}', 'UserController@update');
         Route::delete('/{id}', 'UserController@delete');
     });
+
+    //Exercises
+    Route::prefix('/exercises')->group(function () {
+        Route::get('/', 'ExerciseController@index');
+        Route::get('/{id}', 'ExerciseController@get');
+        Route::post('/', 'ExerciseController@store');
+        Route::put('/{id}', 'ExerciseController@update');
+        Route::delete('/{id}', 'ExerciseController@delete');
+    });
 });
