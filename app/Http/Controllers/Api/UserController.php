@@ -184,7 +184,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, int $id): JsonResponse
     {
         try {
-            $user = User::findOrFail($id)->update($request->validated());
+            User::findOrFail($id)->update($request->validated());
         } catch (ModelNotFoundException $exception) {
             return new JsonResponse([
                 $exception->getMessage(),

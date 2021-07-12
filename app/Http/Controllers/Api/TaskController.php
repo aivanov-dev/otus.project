@@ -3,23 +3,23 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Exercises\StoreExerciseRequest;
-use App\Http\Requests\Exercises\UpdateExerciseRequest;
-use App\Http\Resources\ExerciseResource;
-use App\Models\Exercise;
+use App\Http\Requests\Tasks\StoreTaskRequest;
+use App\Http\Requests\Tasks\UpdateTaskRequest;
+use App\Http\Resources\TaskResource;
+use App\Models\Task;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
-class ExerciseController extends Controller
+class TaskController extends Controller
 {
     /**
      * @OA\Get(
-     *      path="/api/exercises",
-     *      operationId="getExercises",
-     *      tags={"Exercises"},
-     *      summary="Get list of exercises",
-     *      description="Returns list of exercises",
+     *      path="/api/tasks",
+     *      operationId="getTasks",
+     *      tags={"Tasks"},
+     *      summary="Get list of tasks",
+     *      description="Returns list of tasks",
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
@@ -41,19 +41,19 @@ class ExerciseController extends Controller
      */
     public function index(): JsonResponse
     {
-        return new JsonResponse(ExerciseResource::collection(Exercise::all()));
+        return new JsonResponse(TaskResource::collection(Task::all()));
     }
 
     /**
      * @OA\Get(
-     *      path="/api/exercises/{id}",
-     *      operationId="getExerciseById",
-     *      tags={"Exercises"},
-     *      summary="Get exercise information",
-     *      description="Returns exercise data",
+     *      path="/api/tasks/{id}",
+     *      operationId="getTaskById",
+     *      tags={"Tasks"},
+     *      summary="Get task information",
+     *      description="Returns task data",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Exercise id",
+     *          description="Task id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -63,7 +63,7 @@ class ExerciseController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *          @OA\JsonContent(ref="#/components/schemas/ExerciseResource")
+     *          @OA\JsonContent(ref="#/components/schemas/TaskResource")
      *       ),
      *      @OA\Response(
      *          response=400,
@@ -86,33 +86,33 @@ class ExerciseController extends Controller
     public function get(int $id): JsonResponse
     {
         try {
-            $exercise = new ExerciseResource(Exercise::findOrFail($id));
+            $task = new TaskResource(Task::findOrFail($id));
         } catch (ModelNotFoundException $exception) {
             return new JsonResponse([
+                'Task by id ' . $id . ' not found',
                 $exception->getMessage(),
                 $exception->getTraceAsString(),
-                'Exercise by id ' . $id . ' not found',
             ], 404);
         }
-        return new JsonResponse($exercise);
+        return new JsonResponse($task);
     }
 
     /**
      *
      * @OA\Post(
-     *     path="/api/exercises",
-     *     operationId="storeExercise",
-     *     tags={"Exercises"},
-     *     summary="Store new exercise",
-     *     description="Returns new created exercise",
+     *     path="/api/tasks",
+     *     operationId="storeTask",
+     *     tags={"Tasks"},
+     *     summary="Store new task",
+     *     description="Returns new created task",
      *     @OA\RequestBody(
      *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/StoreExerciseRequest")
+     *         @OA\JsonContent(ref="#/components/schemas/StoreTaskRequest")
      *     ),
      *     @OA\Response(
      *         response=201,
      *         description="Successful operation",
-     *         @OA\JsonContent(ref="#/components/schemas/ExerciseResource")
+     *         @OA\JsonContent(ref="#/components/schemas/TaskResource")
      *      ),
      *      @OA\Response(
      *          response=400,
@@ -131,33 +131,33 @@ class ExerciseController extends Controller
      *         description="Error",
      *     ),
      * )
-     * @param StoreExerciseRequest $request
+     * @param StoreTaskRequest $request
      *
      * @return JsonResponse
      */
-    public function store(StoreExerciseRequest $request): JsonResponse
+    public function store(StoreTaskRequest $request): JsonResponse
     {
-        $exercise = Exercise::create($request->validated());
-        return new JsonResponse(new ExerciseResource($exercise), 201);
+        $task = Task::create($request->validated());
+        return new JsonResponse(new TaskResource($task), 201);
     }
 
     /**
      * Update resource.
      *
      * @OA\PUT(
-     *     path="/api/exercises/{id}",
-     *     operationId="updateExercise",
-     *     tags={"Exercises"},
-     *     summary="Update exercise",
-     *     description="Returns updated exercise",
+     *     path="/api/tasks/{id}",
+     *     operationId="updateTask",
+     *     tags={"Tasks"},
+     *     summary="Update task",
+     *     description="Returns updated task",
      *     @OA\RequestBody(
      *         required=false,
-     *         @OA\JsonContent(ref="#/components/schemas/UpdateExerciseRequest")
+     *         @OA\JsonContent(ref="#/components/schemas/UpdateTaskRequest")
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
-     *         @OA\JsonContent(ref="#/components/schemas/ExerciseResource")
+     *         @OA\JsonContent(ref="#/components/schemas/TaskResource")
      *      ),
      *      @OA\Response(
      *          response=400,
@@ -176,26 +176,26 @@ class ExerciseController extends Controller
      *         description="Error",
      *     ),
      * )
-     * @param UpdateExerciseRequest $request
+     * @param UpdateTaskRequest $request
      * @param int $id
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateExerciseRequest $request, int $id): JsonResponse
+    public function update(UpdateTaskRequest $request, int $id): JsonResponse
     {
         try {
-            Exercise::findOrFail($id)->update($request->validated());
+            Task::findOrFail($id)->update($request->validated());
         } catch (ModelNotFoundException $exception) {
             return new JsonResponse([
                 $exception->getMessage(),
                 $exception->getTraceAsString(),
-                'message' => 'Can not update exercise by id ' . $id,
+                'message' => 'Can not update task by id ' . $id,
             ], 404);
         }
 
         return new JsonResponse(
             [
-                'message' => "Exercise - {$id} is updated",
+                'message' => "Task - {$id} is updated",
                 'success' => true,
             ], 202);
     }
@@ -204,14 +204,14 @@ class ExerciseController extends Controller
      * Delete resource from storage.
      *
      * @OA\Delete(
-     *      path="/api/exercises/{id}",
-     *      operationId="deleteExercise",
-     *      tags={"Exercises"},
-     *      summary="Delete existing exercise",
+     *      path="/api/tasks/{id}",
+     *      operationId="deleteTask",
+     *      tags={"Tasks"},
+     *      summary="Delete existing task",
      *      description="Deletes a record and returns no content",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Exercise id",
+     *          description="Task id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -244,12 +244,12 @@ class ExerciseController extends Controller
     public function delete(int $id): JsonResponse
     {
         try {
-            Exercise::findOrFail($id)->delete();
+            Task::findOrFail($id)->delete();
         } catch (ModelNotFoundException $exception) {
             return new JsonResponse([
                 $exception->getMessage(),
                 $exception->getTraceAsString(),
-                'message' => 'Can not delete exercise by id ' . $id,
+                'message' => 'Can not delete task by id ' . $id,
             ], 404);
         }
 
