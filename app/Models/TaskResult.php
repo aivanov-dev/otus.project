@@ -34,6 +34,14 @@ class TaskResult extends Model
     /**
      * @return BelongsTo
      */
+    public function exercise(): BelongsTo
+    {
+        return $this->task()->first()->exercise();
+    }
+
+    /**
+     * @return BelongsTo
+     */
     public function exerciseGroups(): BelongsTo
     {
         return $this->belongsTo(ExerciseGroup::class);

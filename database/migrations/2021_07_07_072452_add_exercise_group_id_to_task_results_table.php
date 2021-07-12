@@ -15,7 +15,9 @@ class AddExerciseGroupIdToTaskResultsTable extends Migration
     {
         Schema::table('task_results', function (Blueprint $table) {
             $table->foreignId('exercise_group_id')
-                ->after('user_id')
+                //if I don't add this some  tests fails because they run migrations and this column is to be created
+                // with null values but this is impossible as it is constrained with exercise_groups table
+                ->nullable()
                 ->constrained('exercise_groups')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');

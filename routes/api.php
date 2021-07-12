@@ -30,7 +30,5 @@ Route::namespace('App\Http\Controllers\Api')->group(function () {
     Route::prefix('results')->group(function () {
         Route::get('/index', 'TaskResultController@index');
         Route::post('/', 'TaskResultController@store');
-        Route::put('/{result}', 'TaskResultController@update');
-        Route::delete('/{result}', 'TaskResultController@destroy');
     });
 });

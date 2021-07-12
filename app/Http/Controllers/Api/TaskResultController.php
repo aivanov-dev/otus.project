@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use App\Models\TaskResult;
+use App\Jobs\ResultSavedJob;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResultCollection;
 use App\Http\Requests\TaskResults\ValidateIndexRequest;
 use App\Http\Requests\TaskResults\ValidateStoreRequest;
-use App\Http\Requests\TaskResults\ValidateUpdateRequest;
 
 class TaskResultController extends Controller
 {
@@ -125,131 +125,9 @@ class TaskResultController extends Controller
             ])->setStatusCode(500);
         }
 
+        //do not uncomment it for now
+        //ResultSavedJob::dispatch($result);
+
         return response()->json($result)->setStatusCode(201);
-    }
-
-    /**
-     * @OA\Put(
-     *     path="/api/results/{id}",
-     *     operationId="updateTaskResult",
-     *     tags={"Task Results"},
-     *     summary="Update existing TaskResult",
-     *     description="Update only those fields you want, no need to send all fields.",
-     *     @OA\Parameter(
-     *         name="id",
-     *         description="Task result ID",
-     *         required=true,
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(ref="#/components/schemas/StoreTaskResultRequest")
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(ref="#/components/schemas/TaskResult")
-     *      ),
-     *     @OA\Response(
-     *         response=422,
-     *         description="Bad input data",
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="No data to update, empty request body",
-     *     ),
-     *      @OA\Response(
-     *         response=500,
-     *         description="Error",
-     *     ),
-     * )
-     *
-     * @param ValidateUpdateRequest $request
-     * @param TaskResult $result
-     *
-     * @return JsonResponse
-     */
-    public function update(ValidateUpdateRequest $request, TaskResult $result): JsonResponse
-    {
-        $data = array_filter([
-            'task_id' => $request->task_id,
-            'user_id' => $request->user_id,
-            'exercise_group_id' => $request->exercise_group_id,
-            'assessment' => $request->assessment
-        ]);
-
-        if (!$data) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'No data to update!'
-            ])->setStatusCode(400);
-        }
-
-        try {
-            $result->update(array_filter([
-                'task_id' => $request->task_id,
-                'user_id' => $request->user_id,
-                'exercise_group_id' => $request->exercise_group_id,
-                'assessment' => $request->assessment
-            ]));
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage()
-            ])->setStatusCode(500);
-        }
-
-        return response()->json($result)->setStatusCode(200);
-    }
-
-    /**
-     * @OA\Delete(
-     *     path="/api/results/{id}",
-     *     operationId="deleteTaskResult",
-     *     tags={"Task Results"},
-     *     summary="Delete task result",
-     *     description="Delete task result  by it id.",
-     *     @OA\Parameter(
-     *         name="id",
-     *         description="Task Results ID",
-     *         required=true,
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=204,
-     *         description="Bad input data",
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Not Found",
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Error",
-     *     ),
-     * )
-     *
-     * @param TaskResult $result
-     *
-     * @return JsonResponse
-     */
-    public function destroy(TaskResult $result): JsonResponse
-    {
-        try {
-            $result->delete();
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage()
-            ])->setStatusCode(500);
-        }
-
-        return response()->json([])->setStatusCode(204);
     }
 }
