@@ -37,6 +37,14 @@ class User extends Model
      */
     public function achievements(): BelongsToMany
     {
-        return $this->belongsToMany(Achievement::class);
+        return $this->belongsToMany(Achievement::class)->withTimestamps();
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function experiences(): HasMany
+    {
+        return $this->hasMany(Experience::class);
     }
 }

@@ -4,6 +4,10 @@
 * Установить зависимости через контейнер php `composer install`
 * Запустить в контейнере php команду `php artisan key:generate`
 * Ниже в документации можно увидеть конструкции типа `${SOMETHIG}` - где `SOMETHING` переменная из `.env`
+* Запустить `make` в контейнере с php.
+* В отдельных окнах в контейнере с php:
+  `php artisan queue:work --queue=achievements`
+  `php artisan queue:work --queue=experience`
 
 ## Swagger
 
