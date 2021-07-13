@@ -176,6 +176,209 @@
                 }
             }
         },
+        "/api/exercise-groups": {
+            "get": {
+                "tags": [
+                    "ExerciseGroups"
+                ],
+                "summary": "Get list of ExerciseGroups",
+                "description": "Returns list of exercise-groups",
+                "operationId": "getExerciseGroups",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExerciseGroupsResource"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "ExerciseGroups"
+                ],
+                "summary": "Store new exerciseGroups",
+                "description": "Returns new created exerciseGroups",
+                "operationId": "storeExerciseGroups",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreExerciseGroupsRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExerciseGroupsResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/api/exercise-groups/ancestors/{id}": {
+            "get": {
+                "tags": [
+                    "ExerciseGroups"
+                ],
+                "summary": "Get ancestors tree information",
+                "description": "Returns excersices data",
+                "operationId": "getAncestorsById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Excersice id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/api/exercise-groups/descendants/{id}": {
+            "get": {
+                "tags": [
+                    "ExerciseGroups"
+                ],
+                "summary": "Get descendants tree information",
+                "description": "Returns excersices data",
+                "operationId": "getDescendantsById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Excersice id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResource"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/api/exercise-groups/{id}": {
+            "delete": {
+                "tags": [
+                    "ExerciseGroups"
+                ],
+                "summary": "Delete existing ExerciseGroup",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteExerciseGroup",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Parent id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
         "/projects": {
             "get": {
                 "tags": [
@@ -740,6 +943,34 @@
     },
     "components": {
         "schemas": {
+            "StoreExerciseGroupsRequest": {
+                "title": "Store exercise groups request",
+                "description": "Store exercise groups request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "example": "English"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateExerciseGroupsRequest": {
+                "title": "Update exercise groups request",
+                "description": "Update exercise groups request body data",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "example": "Russian"
+                    }
+                },
+                "type": "object"
+            },
             "StoreSkillRequest": {
                 "title": "Store skill request",
                 "description": "Store skill request body data",
@@ -803,6 +1034,20 @@
                     }
                 },
                 "type": "object"
+            },
+            "ExerciseGroupsResource": {
+                "title": "ExerciseGroupsResource",
+                "description": "ExerciseGroups resource",
+                "properties": {
+                    "name": {
+                        "title": "name",
+                        "example": "John"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "ExerciseGroupsResource"
+                }
             },
             "SkillLevelResource": {
                 "title": "SkillLevelResource",
