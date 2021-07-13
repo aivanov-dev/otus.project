@@ -4,6 +4,7 @@
 * Установить зависимости через контейнер php `composer install`
 * Запустить в контейнере php команду `php artisan key:generate`
 * Ниже в документации можно увидеть конструкции типа `${SOMETHIG}` - где `SOMETHING` переменная из `.env`
+* Накатить миграции с фикстурами `php artisan migrate:fresh --seed`
 
 ## Swagger
 
