@@ -1,35 +1,12 @@
 version: '3.7'
 
 services:
-  rabbit:
-    container_name: ${COMPOSE_PROJECT_NAME}_rabbitmq
-    image: rabbitmq:3-management
-    networks:
-      - app-network
-    environment:
-      RABBITMQ_DEFAULT_USER: ${RABBIT_MQ_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBIT_MQ_PASSWORD}
-    ports:
-      - "${INTERFACE:-127.0.0.1}:${RABBIT_MQ_UI_PORT}:15672"
-
-  redis:
-    container_name: ${COMPOSE_PROJECT_NAME}_redis
-    image: 'redis:alpine'
-    volumes:
-      - './../../.data/redis:/data'
-    ports:
-      - "127.0.0.1:6379:6379"
-    networks:
-      - app-network
-    healthcheck:
-      test: [ "CMD", "redis-cli", "ping" ]
-
   prometheus:
     image: prom/prometheus:v2.28.1
     container_name: ${COMPOSE_PROJECT_NAME}_prometheus
     user: root
     volumes:
-      - ./.docker/images/prometheus:/etc/prometheus
+      - ./../.docker/images/prometheus:/etc/prometheus
       - ./../../.data/prometheus:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -52,8 +29,8 @@ services:
     user: root
     volumes:
       - ./../../.data/grafana:/var/lib/grafana
-      - ./.docker/images/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
-      - ./.docker/images/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./../.docker/images/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./../.docker/images/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
     environment:
       - GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}
       - GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}

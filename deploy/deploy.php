@@ -2,8 +2,6 @@
 
 namespace Deployer;
 
-use function Symfony\Component\Translation\t;
-
 require 'recipe/common.php';
 
 // Project name
@@ -17,7 +15,7 @@ set('git_tty', true);
 
 // Shared files/dirs between deploys
 add('shared_files', []);
-add('shared_dirs', ['.data', 'storage']);
+add('shared_dirs', []);
 
 // Writable dirs by web server
 add('writable_dirs', []);
@@ -39,31 +37,33 @@ task('deploy', [
     'deploy:release',
     'deploy:update_code',
     'deploy:shared',
+    'deploy:data_dir',
     'deploy:writable',
     'deploy:env',
     'deploy:vendors',
+    'deploy:composer',
+    'artisan:key',
     'deploy:clear_paths',
-    'deploy:data_dir',
-    'deploy:docker',
     'deploy:symlink',
     'deploy:unlock',
     'cleanup',
     'success'
 ]);
 
-task('deploy:vendors', function () {
-    run('cd {{release_path}}');
+after('deploy:update_code', 'checkout');
+
+task('checkout', function () {
+    run('cd {{release_path}} && git checkout feature/pipeline');
 });
-task('deploy:env', function(){
-   run('cd {{release_path}} && mv ./deploy/.env.template .env');
-});
-task('deploy:docker', function(){
-   run('cd {{release_path}} && docker-compose run php composer install');
-   run('cd {{release_path}} && docker-compose run php php artisan key:generate');
+
+task('deploy:composer', 'cd {{release_path}} && composer install');
+task('artisan:key', 'cd {{release_path}} && php artisan key:generate');
+
+task('deploy:env', function () {
+    run('cd {{release_path}} && mv ./deploy/.env.template .env');
 });
 
 task('deploy:data_dir', function () {
-    run('mkdir -p ~/{{application}}/shared/.data/.db');
     run('mkdir -p ~/{{application}}/shared/.data/.grafana');
     run('mkdir -p ~/{{application}}/shared/.data/.prometheus');
     run('mkdir -p ~/{{application}}/shared/.data/.redis');
@@ -73,7 +73,7 @@ task('deploy:data_dir', function () {
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
 
-// Migrate database before symlink new release.
 
+// Migrate database before symlink new release.
 //before('deploy:symlink', 'artisan:migrate');
 
