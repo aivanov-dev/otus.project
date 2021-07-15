@@ -11,10 +11,10 @@ pipelines:
         name: 'Deployment to Staging'
         deployment: staging
         script:
-          - echo "ls -la"
+          - ls -la
     - step:
         name: 'Deployment to Production'
         deployment: production
-        trigger: 'manual'
+#        trigger: 'manual'
         script:
           - echo "Your deployment to production script goes here..."
