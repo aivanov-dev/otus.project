@@ -24,6 +24,7 @@ add('writable_dirs', []);
 // Hosts
 
 host('82.146.34.101')
+    ->set('branch', 'feature/pipeline')
     ->user('otus')
 //    ->configFile('/.ssh/config')
 //    ->identityFile('/.ssh/otus.course')
@@ -49,12 +50,6 @@ task('deploy', [
     'cleanup',
     'success'
 ]);
-
-after('deploy:update_code', 'checkout');
-
-task('checkout', function () {
-    run('cd {{release_path}} && git checkout feature/pipeline');
-});
 
 task('deploy:composer', 'cd {{release_path}} && composer install');
 task('artisan:key', 'cd {{release_path}} && php artisan key:generate');
