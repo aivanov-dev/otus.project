@@ -13,7 +13,6 @@ pipelines:
         name: 'Deployment to Staging'
         deployment: staging
         script:
-          - docker build -t snezhig/deployer .
           - docker run -v $(pwd):/opt -w /opt snezhig/deployer ls -la
     - step:
         name: 'Deployment to Production'
