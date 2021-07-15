@@ -13,7 +13,7 @@ pipelines:
         name: 'Deployment to Staging'
         deployment: staging
         script:
-          - docker run --rm -v $(pwd)/deploy:/deploy -w /deploy snezhig/deployer dep deploy
+          - docker run --rm -v $(pwd)/deploy:/deploy -w /deploy snezhig/deployer bash -c 'dep deploy'
     - step:
         name: 'Deployment to Production'
         deployment: production
