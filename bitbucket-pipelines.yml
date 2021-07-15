@@ -2,7 +2,7 @@
 # Use a skeleton to build, test and deploy using manual and parallel steps
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: docker:stable
+#image: docker:stable
 
 pipelines:
   default:
@@ -11,7 +11,7 @@ pipelines:
         name: 'Deployment to Staging'
         deployment: staging
         script:
-          - docker run -t snezhig/deployer ls -la
+          - docker run -td snezhig/deployer ls -la
     - step:
         name: 'Deployment to Production'
         deployment: production
