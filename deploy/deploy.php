@@ -62,6 +62,10 @@ task('deploy:env', function () {
         run("sed -i -- \"s|@DB_USERNAME@|" . getenv('DB_USERNAME') . "|g\" .env");
         run("sed -i -- \"s|@DB_HOST@|" . getenv('DB_HOST') . "|g\" .env");
         run("sed -i -- \"s|@DB_PASSWORD@|" . getenv('DB_PASSWORD') . "|g\" .env");
+        run("sed -i -- \"s|@RABBIT_MQ_HOST@|" . getenv('RABBIT_MQ_HOST') . "|g\" .env");
+        run("sed -i -- \"s|@RABBIT_MQ_PASSWORD@|" . getenv('RABBIT_MQ_PASSWORD') . "|g\" .env");
+        run("sed -i -- \"s|@RABBIT_MQ_USER@|" . getenv('RABBIT_MQ_USER') . "|g\" .env");
+        run("sed -i -- \"s|@REDIS_HOST@|" . getenv('REDIS_HOST') . "|g\" .env");
     });
 });
 
