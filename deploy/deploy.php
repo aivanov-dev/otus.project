@@ -9,6 +9,7 @@ set('application', 'otus_course');
 
 // Project repository
 set('repository', getenv('BITBUCKET_GIT_HTTP_ORIGIN'));
+//set('repository', 'https://Snezhig@bitbucket.org/Snezhig/course.project.git');
 
 // [Optional] Allocate tty for git clone. Default value is false.
 set('git_tty', false);
@@ -57,10 +58,10 @@ task('artisan:key', 'cd {{release_path}} && php artisan key:generate');
 task('deploy:env', function () {
     within('{{release_path}}', function () {
         run('cp ./deploy/.env.template .env');
-        run("sed -i -- \"s|%DB_DATABASE%|" . getenv('DB_DATABASE') . "|g\" .env");
-        run("sed -i -- \"s|%DB_USERNAME%|" . getenv('DB_USERNAME') . "|g\" .env");
-        run("sed -i -- \"s|%DB_HOST%|" . getenv('DB_HOST') . "|g\" .env");
-        run("sed -i -- \"s|%DB_PASSWORD%|" . getenv('DB_PASSWORD') . "|g\" .env");
+        run("sed -i -- \"s|@DB_DATABASE@|" . getenv('DB_DATABASE') . "|g\" .env");
+        run("sed -i -- \"s|@DB_USERNAME@|" . getenv('DB_USERNAME') . "|g\" .env");
+        run("sed -i -- \"s|@DB_HOST@|" . getenv('DB_HOST') . "|g\" .env");
+        run("sed -i -- \"s|@DB_PASSWORD@|" . getenv('DB_PASSWORD') . "|g\" .env");
     });
 });
 
