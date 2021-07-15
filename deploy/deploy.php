@@ -55,7 +55,10 @@ task('deploy:composer', 'cd {{release_path}} && composer install');
 task('artisan:key', 'cd {{release_path}} && php artisan key:generate');
 
 task('deploy:env', function () {
-    run('cd {{release_path}} && mv ./deploy/.env.template .env');
+    within('{{release_path}}', function () {
+        run('cp ./deploy/.env.template .env');
+        run("sudo -u www-data sed -i -- \"s|%DB_DATABASE%|" . getenv('DB_DATABASE') . "|g\" .env");
+    });
 });
 
 task('deploy:data_dir', function () {
