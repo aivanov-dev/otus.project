@@ -8,7 +8,7 @@ require 'recipe/common.php';
 set('application', 'otus_course');
 
 // Project repository
-set('repository', 'https://Snezhig@bitbucket.org/Snezhig/course.project.git');
+set('repository', getenv('BITBUCKET_GIT_HTTP_ORIGIN'));
 
 // [Optional] Allocate tty for git clone. Default value is false.
 set('git_tty', true);

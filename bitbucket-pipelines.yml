@@ -11,7 +11,8 @@ pipelines:
         name: 'Deployment to Staging'
         deployment: staging
         script:
-          - ls -la
+          - cd deploy
+          - dep deploy
     - step:
         name: 'Deployment to Production'
         deployment: production
