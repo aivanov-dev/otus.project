@@ -25,8 +25,8 @@ add('writable_dirs', []);
 
 host('82.146.34.101')
     ->user('otus')
-    ->configFile('/.ssh/config')
-    ->identityFile('/.ssh/otus.course')
+//    ->configFile('/.ssh/config')
+//    ->identityFile('/.ssh/otus.course')
     ->set('deploy_path', '~/{{application}}');
 
 // Tasks
