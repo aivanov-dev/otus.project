@@ -125,8 +125,7 @@ class TaskResultController extends Controller
             ])->setStatusCode(500);
         }
 
-        //do not uncomment it for now
-        //ResultSavedJob::dispatch($result);
+        ResultSavedJob::dispatch($result);
 
         return response()->json($result)->setStatusCode(201);
     }
