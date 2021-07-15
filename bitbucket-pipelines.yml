@@ -11,7 +11,7 @@ pipelines:
         name: 'Deployment to Staging'
         deployment: staging
         script:
-          - docker run -it snezhig/deployer ls -la
+          - docker run -t snezhig/deployer ls -la
     - step:
         name: 'Deployment to Production'
         deployment: production
