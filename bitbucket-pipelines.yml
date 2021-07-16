@@ -15,7 +15,7 @@ pipelines:
           - composer install
           - ln -f -s .env.pipelines .env
           - cat .env
-          - php artisan migrate --no-interaction --force
+          - php artisan migrate --no-interaction --force -vvv
           - ./vendor/bin/phpunit
         services:
           - postgres
