@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Achievements;
+namespace App\Http\Requests\TaskResults;
 
-use JetBrains\PhpStorm\ArrayShape;
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class ValidateIndexRequest extends FormRequest
 {
@@ -22,7 +22,7 @@ class ValidateIndexRequest extends FormRequest
      *
      * @return array
      */
-    #[ArrayShape(['page' => "string", 'per-page' => "string", 'offset' => "string"])]
+    #[ArrayShape(['page' => "string", 'per-page' => "string"])]
     public function rules(): array
     {
         return [

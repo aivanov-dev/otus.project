@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.0",
         "darkaonline/l5-swagger": "^8.0",
+        "doctrine/dbal": "^3.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.2.0",
@@ -17,7 +18,7 @@
         "rebing/graphql-laravel": "^7.2",
         "superbalist/laravel-prometheus-exporter": "^1.0",
         "symfony/expression-language": "^5.3",
-        "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.2"
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.3"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.10",

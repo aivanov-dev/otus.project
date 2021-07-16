@@ -11,8 +11,7 @@ class ExerciseGroup extends Model
 {
     use HasFactory, NodeTrait;
 
-    protected $fillable = ['name'];
-
+    protected $fillable = ['name', 'parent_id'];
 
     public function exercises(): BelongsToMany
     {

@@ -19,17 +19,25 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::namespace('App\Http\Controllers\Api')->group(function () {
-    Route::get('/achievements/index', 'AchievementController@index');
-    Route::post('/achievements', 'AchievementController@store');
-    Route::put('/achievements/{achievement}', 'AchievementController@update');
-    Route::delete('/achievements/{achievement}', 'AchievementController@destroy');
+
+    Route::prefix('achievements')->group(function () {
+        Route::get('/index', 'AchievementController@index');
+        Route::post('/', 'AchievementController@store');
+        Route::put('/{achievement}', 'AchievementController@update');
+        Route::delete('/{achievement}', 'AchievementController@destroy');
+    });
+
+    Route::prefix('results')->group(function () {
+        Route::get('/index', 'TaskResultController@index');
+        Route::post('/', 'TaskResultController@store');
+    });
 
     // Skills and levels
-    Route::prefix('/skills')->group(function() {
+    Route::prefix('/skills')->group(function () {
         Route::get('/', 'SkillController@all');
         Route::post('/', 'SkillController@store');
 
-        Route::prefix('/{id}')->group(function() {
+        Route::prefix('/{id}')->group(function () {
             Route::get('/', 'SkillController@get');
             Route::patch('/', 'SkillController@update');
             Route::delete('/', 'SkillController@delete');
@@ -49,4 +57,32 @@ Route::namespace('App\Http\Controllers\Api')->group(function () {
         Route::put('/{id}', 'UserController@update');
         Route::delete('/{id}', 'UserController@delete');
     });
+
+    //ExerciseGroups
+    Route::prefix('/exercise-groups')->group(function () {
+        Route::get('/', 'ExerciseGroupsController@all');
+        Route::get('/ancestors/{id}', 'ExerciseGroupsController@getAncestors');
+        Route::get('/descendants/{id}', 'ExerciseGroupsController@getDescendants');
+        Route::post('/', 'ExerciseGroupsController@store');
+        Route::delete('/{id}', 'ExerciseGroupsController@delete');
+    });
+
+    //Exercises
+    Route::prefix('/exercises')->group(function () {
+        Route::get('/', 'ExerciseController@index');
+        Route::get('/{id}', 'ExerciseController@get');
+        Route::post('/', 'ExerciseController@store');
+        Route::put('/{id}', 'ExerciseController@update');
+        Route::delete('/{id}', 'ExerciseController@delete');
+    });
+
+    //Tasks
+    Route::prefix('/tasks')->group(function () {
+        Route::get('/', 'TaskController@index');
+        Route::get('/{id}', 'TaskController@get');
+        Route::post('/', 'TaskController@store');
+        Route::put('/{id}', 'TaskController@update');
+        Route::delete('/{id}', 'TaskController@delete');
+    });
 });
+

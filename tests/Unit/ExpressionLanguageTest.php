@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\TaskResult;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Task;
@@ -50,7 +51,7 @@ class ExpressionLanguageTest extends TestCase
             [
                 'task_id' => $task->id,
                 'user_id' => $user->id,
-                'assessment' => 9
+                'assessment' => 9.5
             ],
             [
                 'task_id' => $task->id,
@@ -64,12 +65,24 @@ class ExpressionLanguageTest extends TestCase
             ]
         ]);
 
-        //countWithCondition is an custom method for collection added via macro
-        //accepts 3 arguments: compared key, value, and operator (optional, default is '==')
-        $expressionAll10 = "exercise.taskResults.countWithCondition('assessment', 10)";
-        $this->assertEquals(2, $expressionLanguage->evaluate($expressionAll10, ['exercise' => $exercise]));
+        $taskResult = TaskResult::first();
 
-        $expression9over90 = "( exercise.taskResults.countWithCondition('assessment', 9, '>=') / exercise.taskResults.count() ) >= 0.9";
-        $this->assertFalse($expressionLanguage->evaluate($expression9over90, ['exercise' => $exercise]));
+        // countWithCondition is an custom method for collection added via macro
+        // accepts 3 arguments: compared key, value, and operator (optional, default is '==')
+        $expressionAll10 = "taskResult.exercise.taskResults.countWithCondition('assessment', 10)";
+        $this->assertEquals(2, $expressionLanguage->evaluate($expressionAll10, ['taskResult' => $taskResult]));
+
+        $expressionAll10 = "taskResult.exercise.taskResults.countWithCondition('assessment', 9.5)";
+        $this->assertEquals(1, $expressionLanguage->evaluate($expressionAll10, ['taskResult' => $taskResult]));
+
+        //in app writes expression in such a way they return only true of false
+        //все ли задания в занятии выполнены на 10 баллов?
+        //так как в контролере будет только $taskResult, то начинаю с $taskResult
+        $expressionAll10 = "taskResult.exercise.taskResults.countWithCondition('assessment', 10) / taskResult.exercise.taskResults.count() == 1";
+        $this->assertFalse($expressionLanguage->evaluate($expressionAll10, ['taskResult' => $taskResult]));
+
+        //доля оценок выше 9 больше 90%?
+        $expression9over90 = "( taskResult.exercise.taskResults.countWithCondition('assessment', 9, '>=') / taskResult.exercise.taskResults.count() ) >= 0.9";
+        $this->assertFalse($expressionLanguage->evaluate($expression9over90, ['taskResult' => $taskResult]));
     }
 }
