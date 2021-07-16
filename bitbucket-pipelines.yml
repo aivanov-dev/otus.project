@@ -11,17 +11,13 @@ pipelines:
         script:
           - apt-get update && apt-get install -qy git curl libzip-dev libpq-dev zip
           - docker-php-ext-install zip pdo pdo_mysql pdo_pgsql sockets
-    - step:
-        name: 'Artisan'
-        script:
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
           - ln -f -s .env.pipelines .env
           - cat .env
           - php artisan migrate --no-interaction --force -vvv
           - php artisan test
-        services:
-          - postgres
+
 
   branches:
     production:
