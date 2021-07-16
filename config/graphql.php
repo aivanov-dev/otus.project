@@ -108,7 +108,8 @@ return [
                 'skills'      => \App\GraphQL\Queries\Skill\SkillsQuery::class,
                 'task'       => \App\GraphQL\Queries\Task\TaskQuery::class,
                 'tasks'      => \App\GraphQL\Queries\Task\TasksQuery::class,
-                'TaskExerciseSkillAggregation' => \App\GraphQL\Queries\Aggregations\TaskExerciseSkillAggregationQuery::class
+                'TaskExerciseSkillAggregation' => \App\GraphQL\Queries\Aggregations\TaskExerciseSkillAggregationQuery::class,
+                'TaskExerciseSkillAggregations' => \App\GraphQL\Queries\Aggregations\TaskExerciseSkillAggregationsQuery::class
             ],
             'mutation'   => [
                 // ExampleMutation::class,
