@@ -7,7 +7,7 @@ pipelines:
   default:
     # The following deployment steps will be executed for each pipeline run. To configure your steps and conditionally deploy see https://support.atlassian.com/bitbucket-cloud/docs/configure-bitbucket-pipelinesyml/
     - step:
-        name: 'Build'
+        name: 'Migration and Tests'
         script:
           - apt-get update && apt-get install -qy git curl libzip-dev libpq-dev zip
           - docker-php-ext-install zip pdo pdo_mysql pdo_pgsql sockets
