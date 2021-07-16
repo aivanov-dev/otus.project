@@ -2,7 +2,7 @@
 # Use a skeleton to build, test and deploy using manual and parallel steps
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: snezhig/deployer
+image: php:8.0-fpm
 pipelines:
   default:
     # The following deployment steps will be executed for each pipeline run. To configure your steps and conditionally deploy see https://support.atlassian.com/bitbucket-cloud/docs/configure-bitbucket-pipelinesyml/
@@ -21,6 +21,7 @@ pipelines:
         services:
           - postgres
     - step:
+        image: snezhig/deployer
         name: 'Deployment to Staging'
         deployment: staging
         script:
