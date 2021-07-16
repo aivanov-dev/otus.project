@@ -18,7 +18,6 @@ pipelines:
           - php artisan migrate --no-interaction --force -vvv
           - php artisan test
 
-
   branches:
     production:
       - step:
