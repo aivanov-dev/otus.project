@@ -25,6 +25,7 @@ pipelines:
       - step:
           image: snezhig/deployer
           name: 'Deployment to production'
+          deployment: production
           script:
             - cd deploy
             - dep deploy -n
