@@ -17,6 +17,7 @@ pipelines:
           - cat .env
         artifacts:
           - ./**
+          - ./*
     - step:
         name: 'Artisan'
         script:
