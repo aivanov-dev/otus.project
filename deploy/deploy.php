@@ -55,6 +55,7 @@ task('deploy:composer', 'cd {{release_path}} && composer install');
 task('artisan:key', 'cd {{release_path}} && php artisan key:generate');
 task('artisan:migrate', 'cd {{release_path}} && php artisan migrate');
 
+task('swagger', 'cd {{release_path}} && php artisan l5-swagger:generate');
 
 task('deploy:env', function () {
     within('{{release_path}}', function () {
@@ -87,6 +88,7 @@ after('deploy:failed', 'deploy:unlock');
 after('deploy:composer', 'artisan:key');
 before('deploy:symlink', 'artisan:migrate');
 before('deploy:symlink', 'docker:monitoring');
+before('deploy:symlink', 'swagger');
 
 // Migrate database before symlink new release.
 
