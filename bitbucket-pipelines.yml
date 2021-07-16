@@ -7,6 +7,15 @@ pipelines:
   default:
     # The following deployment steps will be executed for each pipeline run. To configure your steps and conditionally deploy see https://support.atlassian.com/bitbucket-cloud/docs/configure-bitbucket-pipelinesyml/
     - step:
+        name: 'Test'
+        deployment: staging
+        script:
+          - cp .env.template .env
+          - docker-compose build db php
+          - docker-compose exec -u 1000 php php atrisan key:generate
+        services:
+          - docker
+    - step:
         name: 'Deployment to Staging'
         deployment: staging
         script:
@@ -18,3 +27,5 @@ pipelines:
         trigger: 'manual'
         script:
           - echo "Your deployment to production script goes here..."
+options:
+  docker: true
