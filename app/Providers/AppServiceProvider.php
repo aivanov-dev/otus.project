@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\ResultSavedEvent;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Queue\Events\JobProcessed;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->addNewCollectionMacros();
+
+        Queue::after(function (JobProcessed $event) {
+            ResultSavedEvent::dispatch($event->job->resolveName(), $event->job->getQueue(), unserialize($event->job->payload()['data']['command'])->taskResult);
+        });
     }
 
     /**
@@ -38,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Collection::macro('countWithCondition', function (string $property, string $value, string $operator = '==') {
             $filteredCollection = $this->filter(function ($item, $key) use ($property, $value, $operator) {
-                return version_compare($item->{$property}, $value, $operator);
+                return version_compare((float)$item->{$property}, (float)$value, $operator);
             });
 
             return $filteredCollection->count();

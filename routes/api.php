@@ -19,10 +19,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::namespace('App\Http\Controllers\Api')->group(function () {
-    Route::get('/achievements/index', 'AchievementController@index');
-    Route::post('/achievements', 'AchievementController@store');
-    Route::put('/achievements/{achievement}', 'AchievementController@update');
-    Route::delete('/achievements/{achievement}', 'AchievementController@destroy');
+
+    Route::prefix('achievements')->group(function () {
+        Route::get('/index', 'AchievementController@index');
+        Route::post('/', 'AchievementController@store');
+        Route::put('/{achievement}', 'AchievementController@update');
+        Route::delete('/{achievement}', 'AchievementController@destroy');
+    });
+
+    Route::prefix('results')->group(function () {
+        Route::get('/index', 'TaskResultController@index');
+        Route::post('/', 'TaskResultController@store');
+    });
 
     // Skills and levels
     Route::prefix('/skills')->group(function () {
