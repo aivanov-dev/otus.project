@@ -35,7 +35,7 @@ pipelines:
 definitions:
   services:
     postgres:
-      image: postgres
+      image: mysql
       environment:
         POSTGRES_PASSWORD: 'pipeline_password'
         POSTGRES_USER: 'pipeline_user'
