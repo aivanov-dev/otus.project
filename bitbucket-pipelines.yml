@@ -9,9 +9,10 @@ pipelines:
     - step:
         name: 'Test'
         script:
-          - apt-get update && apt-get install -qy git curl libmcrypt-dev mysql-client
-          - yes | pecl install
-          - docker-php-ext-install pdo_mysql
+          - apt-get update && apt-get install -qy git curl libzip-dev zip
+          - yes | pecl install redis
+          - docker-php-ext-install pdo pdo_pgsql sockets zip
+          - docker-php-ext-enable redis
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
           - ln -f -s .env.pipelines .env
