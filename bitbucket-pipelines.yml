@@ -10,13 +10,11 @@ pipelines:
         name: 'Test'
         script:
           - apt-get update && apt-get install -qy git curl libzip-dev libzstd-dev zip
-          - yes | pecl install ds igbinary redis
           - docker-php-ext-install sockets zip
-          - docker-php-ext-enable redis
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
           - ln -f -s .env.pipelines .env
-          - php artisan migrate
+          - php artisan migrate --no-interaction
           - ./vendor/bin/phpunit
     - step:
         image: snezhig/deployer
