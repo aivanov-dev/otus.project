@@ -10,7 +10,7 @@ pipelines:
         name: 'Test'
         script:
           - apt-get update && apt-get install -qy git curl libzip-dev zip autoconf
-          - yes | pecl install redis
+          - yes | pecl install ds igbinary redis
           - docker-php-ext-install pdo pdo_pgsql sockets zip
           - docker-php-ext-enable redis
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
