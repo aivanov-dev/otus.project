@@ -15,6 +15,8 @@ pipelines:
           - composer install
           - ln -f -s .env.pipelines .env
           - cat .env
+        artifacts:
+          - *
     - step:
         name: 'Artisan'
         script:
