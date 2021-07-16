@@ -9,7 +9,7 @@ pipelines:
     - step:
         name: 'Test'
         script:
-          - apt-get update && apt-get install -qy git curl zlib1g-dev libzip-dev zip unzip
+          - apt-get update && apt-get install -qy git curl libzip-dev libzstd-dev zip
           - yes | pecl install ds igbinary redis
           - docker-php-ext-install pdo pdo_pgsql sockets zip
           - docker-php-ext-enable redis
