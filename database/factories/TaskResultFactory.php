@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\TaskResult;
+use JetBrains\PhpStorm\ArrayShape;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TaskResultFactory extends Factory
@@ -19,6 +20,7 @@ class TaskResultFactory extends Factory
      *
      * @return array
      */
+    #[ArrayShape(['assessment' => "int"])]
     public function definition(): array
     {
         return [

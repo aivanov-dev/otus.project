@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TaskResult extends Model
 {
@@ -13,7 +13,7 @@ class TaskResult extends Model
     /**
      * @var string[]
      */
-    protected $fillable = ['task_id', 'user_id', 'assessment', 'exercise_group_id'];
+    protected $fillable = ['task_id', 'user_id', 'exercise_group_id', 'assessment'];
 
     /**
      * @return BelongsTo
@@ -29,6 +29,14 @@ class TaskResult extends Model
     public function task(): BelongsTo
     {
         return $this->belongsTo(Task::class);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function exercise(): BelongsTo
+    {
+        return $this->task()->first()->exercise();
     }
 
     /**

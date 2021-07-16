@@ -17,13 +17,13 @@ class AchievementsTableSeeder extends Seeder
         Achievement::create([
             'name' => 'Excellent!',
             'description' => 'All tasks are passed with highest grade!',
-            'expression' => 'exercise.taskResults.countWithCondition("assessment", 10)'
+            'expression' => "taskResult.exercise.taskResults.countWithCondition('assessment', 10) / taskResult.exercise.taskResults.count() == 1"
         ]);
 
         Achievement::create([
             'name' => 'Almost excellent!',
             'description' => 'You passed 90% of tasks with grade equal or greater than 9. Keep going!',
-            'expression' => '( exercise.taskResults.countWithCondition("assessment", 9, ">=") / exercise.taskResults.count() ) >= 0.9'
+            'expression' => "( taskResult.exercise.taskResults.countWithCondition('assessment', 9, '>=') / taskResult.exercise.taskResults.count() ) >= 0.9"
         ]);
     }
 }

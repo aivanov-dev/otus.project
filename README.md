@@ -5,6 +5,10 @@
 * Запустить в контейнере php команду `php artisan key:generate`
 * Ниже в документации можно увидеть конструкции типа `${SOMETHIG}` - где `SOMETHING` переменная из `.env`
 * Накатить миграции с фикстурами `php artisan migrate:fresh --seed`
+* Запустить `make` в контейнере с php.
+* В отдельных окнах в контейнере с php:
+  `php artisan queue:work --queue=achievements`
+  `php artisan queue:work --queue=experience`
 
 ## Swagger
 

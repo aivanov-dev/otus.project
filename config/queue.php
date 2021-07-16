@@ -96,6 +96,9 @@ return [
                 ],
                 'queue' => [
                     'job' => VladimirYuldashev\LaravelQueueRabbitMQ\Queue\Jobs\RabbitMQJob::class,
+                    'exchange' => env('RABBIT_MQ_RESULTS_EXCHANGE', ''),
+                    'exchange_type' => env('RABBIT_MQ_RESULTS_EXCHANGE_TYPE', 'fanout'),
+                    'exchange_routing_key' => '',
                 ],
             ],
         ],
