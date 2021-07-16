@@ -145,7 +145,7 @@ class ExerciseGroupsController extends Controller
     public function getDescendants(int $id): JsonResponse
     {
         try {
-            $ancestors = ExerciseGroupsResource::collection(ExerciseGroup::defaultOrder()->descendantsAndSelf($id));
+            $descendants = ExerciseGroupsResource::collection(ExerciseGroup::defaultOrder()->descendantsAndSelf($id));
         } catch (ModelNotFoundException $exception) {
             return new JsonResponse([
                 $exception->getMessage(),
@@ -153,7 +153,7 @@ class ExerciseGroupsController extends Controller
                 'Exercise by id ' . $id . ' not found',
             ], 404);
         }
-        return new JsonResponse($ancestors);
+        return new JsonResponse($descendants);
     }
 
     /**
