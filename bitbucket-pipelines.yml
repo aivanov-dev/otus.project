@@ -10,22 +10,20 @@ pipelines:
         name: 'Test'
         script:
           - apt-get update && apt-get install -qy git curl libzip-dev libzstd-dev zip
-          - docker-php-ext-install zip pdo
+          - docker-php-ext-install zip pdo sockets
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
           - ln -f -s .env.pipelines .env
           - php artisan migrate --no-interaction --force
           - ./vendor/bin/phpunit
-    - step:
-        image: snezhig/deployer
-        name: 'Deployment to Staging'
-        deployment: staging
-        script:
-          - cd deploy
-          - dep deploy -n
-    - step:
-        name: 'Deployment to Production'
-        deployment: production
-        trigger: 'manual'
-        script:
-          - echo "Your deployment to production script goes here..."
+
+  branches:
+    production:
+      - step:
+          image: snezhig/deployer
+          name: 'Deployment to Staging'
+          deployment: staging
+          script:
+            - cd deploy
+            - dep deploy -n
+
