@@ -16,7 +16,7 @@ pipelines:
           - ln -f -s .env.pipelines .env
           - cat .env
           - php artisan migrate --no-interaction --force -vvv
-          - ./vendor/bin/phpunit
+          - php artisan test
         services:
           - postgres
 
