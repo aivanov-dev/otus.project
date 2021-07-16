@@ -78,7 +78,7 @@ task('deploy:data_dir', function () {
 
 task('docker:monitoring', function () {
     within('{{release_path}}/deploy', function () {
-        run('docker-compose up --force-recreate -d --env-file ./../.env');
+        run('docker-compose  --env-file ./../.env up --force-recreate -d');
     });
 });
 
