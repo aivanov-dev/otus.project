@@ -10,12 +10,14 @@ pipelines:
         name: 'Test'
         script:
           - apt-get update && apt-get install -qy git curl libzip-dev libzstd-dev zip
-          - docker-php-ext-install zip pdo sockets
+          - docker-php-ext-install zip pdo pdo_mysql pdo_pgsql sockets
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
           - ln -f -s .env.pipelines .env
           - php artisan migrate --no-interaction --force
           - ./vendor/bin/phpunit
+        services:
+          - postgres
 
   branches:
     production:
@@ -27,3 +29,11 @@ pipelines:
             - cd deploy
             - dep deploy -n
 
+definitions:
+  services:
+    postgres:
+      image: postgres
+      environment:
+        POSTGRES_PASSWORD: 'pipeline_password'
+        POSTGRES_USER: 'pipeline_user'
+        POSTGRES_DB: 'pipeline'
