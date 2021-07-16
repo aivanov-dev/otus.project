@@ -10,7 +10,7 @@ pipelines:
         name: 'Test'
         script:
           - apt-get update && apt-get install -qy git curl libzip-dev libzstd-dev zip
-          - docker-php-ext-install sockets zip
+          - docker-php-ext-install zip pdo
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
           - ln -f -s .env.pipelines .env
