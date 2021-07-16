@@ -6,8 +6,8 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}_prometheus
     user: root
     volumes:
-      - ./../.docker/images/prometheus:/etc/prometheus
-      - ./../../.data/prometheus:/prometheus
+      - ./prometheus:/etc/prometheus
+      - ./../../shared/.data/prometheus:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -28,7 +28,7 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}_grafana
     user: root
     volumes:
-      - ./../../.data/grafana:/var/lib/grafana
+      - ./../../shared/.data/grafana:/var/lib/grafana
       - ./../.docker/images/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - ./../.docker/images/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
     environment:

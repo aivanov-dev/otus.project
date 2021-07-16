@@ -44,7 +44,6 @@ task('deploy', [
     'deploy:env',
     'deploy:vendors',
     'deploy:composer',
-    'artisan:key',
     'deploy:clear_paths',
     'deploy:symlink',
     'deploy:unlock',
@@ -52,8 +51,14 @@ task('deploy', [
     'success'
 ]);
 
+after('deploy:composer', 'artisan:key');
+before('deploy:symlink', 'artisan:migrate');
+before('deploy:symlink', 'docker:monitoring');
+
 task('deploy:composer', 'cd {{release_path}} && composer install');
 task('artisan:key', 'cd {{release_path}} && php artisan key:generate');
+task('artisan:migrate', 'cd {{release_path}} && php artisan migrate');
+
 
 task('deploy:env', function () {
     within('{{release_path}}', function () {
@@ -72,14 +77,18 @@ task('deploy:env', function () {
 task('deploy:data_dir', function () {
     run('mkdir -p ~/{{application}}/shared/.data/.grafana');
     run('mkdir -p ~/{{application}}/shared/.data/.prometheus');
-    run('mkdir -p ~/{{application}}/shared/.data/.redis');
 });
 
+
+task('docker:monitoring', function () {
+    within('{{release_path}}/deploy', function () {
+        run('docker-compose up --force-recreate -d');
+    });
+});
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
 
 
 // Migrate database before symlink new release.
-//before('deploy:symlink', 'artisan:migrate');
 
