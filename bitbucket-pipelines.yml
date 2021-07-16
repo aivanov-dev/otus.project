@@ -18,8 +18,6 @@ pipelines:
           - ln -f -s .env.pipelines .env
           - php artisan migrate
           - ./vendor/bin/phpunit
-        services:
-          - postgres
     - step:
         image: snezhig/deployer
         name: 'Deployment to Staging'
