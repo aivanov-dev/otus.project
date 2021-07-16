@@ -51,10 +51,6 @@ task('deploy', [
     'success'
 ]);
 
-after('deploy:composer', 'artisan:key');
-before('deploy:symlink', 'artisan:migrate');
-before('deploy:symlink', 'docker:monitoring');
-
 task('deploy:composer', 'cd {{release_path}} && composer install');
 task('artisan:key', 'cd {{release_path}} && php artisan key:generate');
 task('artisan:migrate', 'cd {{release_path}} && php artisan migrate');
@@ -88,7 +84,9 @@ task('docker:monitoring', function () {
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
-
+after('deploy:composer', 'artisan:key');
+before('deploy:symlink', 'artisan:migrate');
+before('deploy:symlink', 'docker:monitoring');
 
 // Migrate database before symlink new release.
 
