@@ -9,7 +9,7 @@ pipelines:
     - step:
         name: 'Test'
         script:
-          - apt-get update && apt-get install -qy git curl libzip-dev libzstd-dev zip
+          - apt-get update && apt-get install -qy git curl libzip-dev libpq-dev zip
           - docker-php-ext-install zip pdo pdo_mysql pdo_pgsql sockets
           - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
           - composer install
