@@ -4,15 +4,14 @@ namespace App\GraphQL\Queries\Aggregations;
 
 use Closure;
 use App\Models\Task;
-use Illuminate\Support\Collection;
-use JetBrains\PhpStorm\ArrayShape;
 use Rebing\GraphQL\Support\Query;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use GraphQL\Type\Definition\ResolveInfo;
 use Rebing\GraphQL\Support\Facades\GraphQL;
 use GraphQL\Type\Definition\Type as GraphQLType;
 
-class TaskExerciseSkillAggregationQuery extends Query
+class TaskExerciseSkillAggregationsQuery extends Query
 {
     /**
      * @return GraphQLType
@@ -20,21 +19,6 @@ class TaskExerciseSkillAggregationQuery extends Query
     public function type(): GraphQLType
     {
         return GraphQLType::listOf(GraphQL::type('TaskExerciseSkillAggregation'));
-    }
-
-    /**
-     * @return array[]
-     */
-    #[ArrayShape(['task_id' => "array"])]
-    public function args(): array
-    {
-        return [
-            'task_id' => [
-                'name'  => 'task_id',
-                'type'  => GraphQLType::int(),
-                'rules' => ['required']
-            ]
-        ];
     }
 
     /**
@@ -64,7 +48,6 @@ class TaskExerciseSkillAggregationQuery extends Query
             ->leftJoin('experiences', 'experiences.user_id', '=', 'task_results.user_id')
             ->leftJoin('skills', 'skills.id', '=', 'experiences.skill_id')
             ->groupBy('tasks.id', 'exercises.id', 'skills.id')
-            ->having('tasks.id', '=', $args['task_id'])
             ->get()
             ->map(function ($value) {
                 return [

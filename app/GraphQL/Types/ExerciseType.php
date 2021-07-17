@@ -29,7 +29,7 @@ class ExerciseType extends GraphQLType
                 'description' => 'Id of the exercise'
             ],
             'name' => [
-                'type' => Type::nonNull(Type::string()),
+                'type' => Type::string(),
                 'description' => 'Name of the exercise'
             ]
         ];
