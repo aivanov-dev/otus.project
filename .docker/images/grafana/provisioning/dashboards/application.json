@@ -84,7 +84,7 @@
                         "max"
                     ],
                     "displayMode": "table",
-                    "placement": "bottom"
+                    "placement": "right"
                 },
                 "tooltip": {
                     "mode": "single"
@@ -177,7 +177,7 @@
                         "max"
                     ],
                     "displayMode": "table",
-                    "placement": "bottom"
+                    "placement": "right"
                 },
                 "tooltip": {
                     "mode": "single"
@@ -205,7 +205,6 @@
                         "mode": "palette-classic"
                     },
                     "custom": {
-                        "axisLabel": "",
                         "axisPlacement": "auto",
                         "barAlignment": 0,
                         "drawStyle": "line",
@@ -259,8 +258,8 @@
             "options": {
                 "legend": {
                     "calcs": [],
-                    "displayMode": "list",
-                    "placement": "bottom"
+                    "displayMode": "table",
+                    "placement": "right"
                 },
                 "tooltip": {
                     "mode": "single"
@@ -272,7 +271,7 @@
                     "expr": "sum without (uri) (increase(app_request_count{code=~\"4..\"}[30s]))",
                     "instant": false,
                     "interval": "2s",
-                    "legendFormat": "{{method}} {{response_code}}",
+                    "legendFormat": "Client {{method}} {{response_code}}",
                     "refId": "Client Errors"
                 },
                 {
@@ -280,7 +279,7 @@
                     "expr": "sum without (uri) (increase(app_request_count{code=~\"5..\"}[30s]))",
                     "hide": false,
                     "interval": "2s",
-                    "legendFormat": "{{method}} {{response_code}}",
+                    "legendFormat": "Server {{method}} {{response_code}}",
                     "refId": "Server Errors"
                 }
             ],
@@ -303,5 +302,5 @@
     "timezone": "browser",
     "title": "Application",
     "uid": "D_i9aWi7k",
-    "version": 1
+    "version": 2
 }
