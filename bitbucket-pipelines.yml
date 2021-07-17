@@ -19,7 +19,6 @@ pipelines:
           #          - php artisan test
           services:
             - postgres
-          trigger: manual
     production:
       - step:
           image: snezhig/deployer
