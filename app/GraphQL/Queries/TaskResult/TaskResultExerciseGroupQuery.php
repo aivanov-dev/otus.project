@@ -26,14 +26,12 @@ class TaskResultExerciseGroupQuery extends Query
 
     public function resolve($root, $args, $context, ResolveInfo $info)
     {
+        $query = 'SELECT calculate_assessments(exercise_groups.*), id, name
+FROM exercise_groups where parent_id';
         if (empty($args['id'])) {
-            $result = \DB::select(
-                "SELECT calculate_assessments(exercise_groups.*), id, name
-FROM exercise_groups where parent_id isnull;");
+            $result = \DB::select("{$query} isnull;");
         } else {
-            $result = \DB::select(
-                "SELECT calculate_assessments(exercise_groups.*), id, name
-FROM exercise_groups where parent_id = {$args['id']} AND calculate_assessments(exercise_groups.*) is not null;");
+            $result = \DB::select("{$query} = {$args['id']} AND calculate_assessments(exercise_groups.*) is not null;");
         }
 
         return $result;
