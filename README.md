@@ -89,3 +89,24 @@
   }
 }
 ```
+
+* Получить агрегацию баллов по времени
+
+
+```
+
+{
+    taskResultsByTimeAggregation(user_id: 1, date_from: "2020-01-01") {
+        user {
+          name
+        },
+        skill {
+          name
+        },
+        total_assessment
+    }
+}
+
+date_from - Дата в формате Y-m-d.
+
+```
