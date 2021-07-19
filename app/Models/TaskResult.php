@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\HasCountMetric;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class TaskResult extends Model
 {
-    use HasFactory;
+    use HasFactory, HasCountMetric;
 
     /**
      * @var string[]
@@ -45,5 +47,40 @@ class TaskResult extends Model
     public function exerciseGroups(): BelongsTo
     {
         return $this->belongsTo(ExerciseGroup::class);
+    }
+
+    public function skill(): HasOneThrough
+    {
+        return $this->task->hasOneThrough(
+            Skill::class,
+            Influence::class,
+            'task_id',
+            'id',
+            'id',
+            'skill_id'
+        );
+    }
+
+    public function getCountMetricLabels(): array
+    {
+        return [
+            'id',
+            'user_id',
+            'task_id',
+            'task_title',
+            'assessment',
+        ];
+    }
+
+    public function getCountMetricLabelValues(): array
+    {
+        return [
+            $this->getKey(),
+            $this->user->getKey(),
+            $this->task->getKey(),
+            $this->task->title,
+            $this->assessment,
+
+        ];
     }
 }
