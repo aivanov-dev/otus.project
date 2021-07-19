@@ -43,7 +43,6 @@ task('deploy', [
     'deploy:writable',
     'deploy:env',
     'deploy:vendors',
-    'deploy:composer',
     'deploy:clear_paths',
     'deploy:symlink',
     'deploy:unlock',
@@ -54,6 +53,14 @@ task('deploy', [
 task('deploy:composer', 'cd {{release_path}} && composer install');
 task('artisan:key', 'cd {{release_path}} && php artisan key:generate');
 task('artisan:migrate', 'cd {{release_path}} && php artisan migrate');
+task('restart', function () {
+    within('{{release_path}}', function () {
+        run('cp ./deploy/nginx/otus.conf /etc/nginx/conf.d/otus.conf -f');
+        run('sudo service nginx restart');
+        run('cp ./deploy/supervisor.conf /etc/supervisor/conf.d/otus.conf -f');
+        run('sudo service supervisor restart');
+    });
+});
 
 task('swagger', 'cd {{release_path}} && php artisan l5-swagger:generate');
 
@@ -85,10 +92,15 @@ task('docker:monitoring', function () {
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
+after('deploy:composer','deploy:composer');
 after('deploy:composer', 'artisan:key');
 before('deploy:symlink', 'artisan:migrate');
 before('deploy:symlink', 'docker:monitoring');
 before('deploy:symlink', 'swagger');
+after('deploy:symlink', 'restart');
 
+task('artisan:rollback', 'cd {{release_path}} && php artisan migrate:rollback')->local();
+before('rollback', 'artisan:rollback');
+after('rollback', 'deploy:composer');
 // Migrate database before symlink new release.
 

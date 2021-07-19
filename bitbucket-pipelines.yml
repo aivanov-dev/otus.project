@@ -9,13 +9,14 @@ pipelines:
       - step:
           name: 'Migration and Tests'
           script:
-            - apt-get update && apt-get install -qy git curl libzip-dev libpq-dev zip
-            - docker-php-ext-install zip pdo pdo_mysql pdo_pgsql sockets
-            - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-            - composer install
-            - ln -f -s .env.pipelines .env
-            - cat .env
-            - php artisan migrate --no-interaction --force -vvv
+            - echo 'ok'
+#            - apt-get update && apt-get install -qy git curl libzip-dev libpq-dev zip
+#            - docker-php-ext-install zip pdo pdo_mysql pdo_pgsql sockets
+#            - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+#            - composer install
+#            - ln -f -s .env.pipelines .env
+#            - cat .env
+#            - php artisan migrate --no-interaction --force -vvv
           #          - php artisan test
           services:
             - postgres
@@ -27,6 +28,15 @@ pipelines:
           script:
             - cd deploy
             - dep deploy -n
+      - step:
+          image: snezhig/deployer
+          name: 'Rollback'
+          deployment: production
+          trigger: manual
+          script:
+            - cd deploy
+            - dep rollback -n
+
 
 definitions:
   services:
