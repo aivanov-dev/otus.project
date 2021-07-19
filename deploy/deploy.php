@@ -92,7 +92,7 @@ task('docker:monitoring', function () {
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
-after('deploy:vendor','deploy:composer');
+after('deploy:vedor','deploy:composer');
 after('deploy:composer', 'artisan:key');
 before('deploy:symlink', 'artisan:migrate');
 before('deploy:symlink', 'docker:monitoring');
