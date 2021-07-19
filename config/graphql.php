@@ -102,12 +102,16 @@ return [
     'schemas'                => [
         'default' => [
             'query'      => [
-                'influence'  => \App\GraphQL\Queries\Influence\InfluenceQuery::class,
-                'influences' => \App\GraphQL\Queries\Influence\InfluencesQuery::class,
-                'skill'      => \App\GraphQL\Queries\Skill\SkillQuery::class,
-                'skills'      => \App\GraphQL\Queries\Skill\SkillsQuery::class,
-                'task'       => \App\GraphQL\Queries\Task\TaskQuery::class,
-                'tasks'      => \App\GraphQL\Queries\Task\TasksQuery::class
+                'influence'                     => \App\GraphQL\Queries\Influence\InfluenceQuery::class,
+                'influences'                    => \App\GraphQL\Queries\Influence\InfluencesQuery::class,
+                'skill'                         => \App\GraphQL\Queries\Skill\SkillQuery::class,
+                'skills'                        => \App\GraphQL\Queries\Skill\SkillsQuery::class,
+                'task'                          => \App\GraphQL\Queries\Task\TaskQuery::class,
+                'tasks'                         => \App\GraphQL\Queries\Task\TasksQuery::class,
+                'TaskExerciseSkillAggregation'  => \App\GraphQL\Queries\Aggregations\TaskExerciseSkillAggregationQuery::class,
+                'TaskExerciseSkillAggregations' => \App\GraphQL\Queries\Aggregations\TaskExerciseSkillAggregationsQuery::class,
+                'taskResultExerciseGroup'       => \App\GraphQL\Queries\TaskResult\TaskResultExerciseGroupQuery::class,
+                'taskResultsByTimeAggregation'  => \App\GraphQL\Queries\Aggregations\TaskResultsByTimeAggregationQuery::class,
             ],
             'mutation'   => [
                 // ExampleMutation::class,
@@ -134,6 +138,11 @@ return [
         \App\GraphQL\Types\InfluenceType::class,
         \App\GraphQL\Types\SkillType::class,
         \App\GraphQL\Types\TaskType::class,
+        \App\GraphQL\Types\ExerciseType::class,
+        \App\GraphQL\Types\Aggregations\TaskExerciseSkillAggregation::class,
+        \App\GraphQL\Types\TaskResultType::class,
+        \App\GraphQL\Types\Aggregations\TaskResultByTimeAggregationType::class,
+        \App\GraphQL\Types\UserType::class,
     ],
 
     // The types will be loaded on demand. Default is to load all types on each request

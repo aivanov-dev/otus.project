@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Observers\CountMetricObserver;
+use App\Traits\HasCountMetric;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,7 +13,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class User extends Model
 {
     use HasFactory,
-        Notifiable;
+        Notifiable,
+        HasCountMetric;
 
     /**
      * The attributes that are mass assignable.
