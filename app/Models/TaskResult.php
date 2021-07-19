@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class TaskResult extends Model
 {
@@ -45,5 +46,17 @@ class TaskResult extends Model
     public function exerciseGroups(): BelongsTo
     {
         return $this->belongsTo(ExerciseGroup::class);
+    }
+
+    public function skill(): HasOneThrough
+    {
+        return $this->task->hasOneThrough(
+            Skill::class,
+            Influence::class,
+            'task_id',
+            'id',
+            'id',
+            'skill_id'
+        );
     }
 }

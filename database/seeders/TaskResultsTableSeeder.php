@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\ExerciseGroup;
-use App\Models\Task;
 use App\Models\TaskResult;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 use JetBrains\PhpStorm\NoReturn;
+use Illuminate\Support\Facades\DB;
 
 class TaskResultsTableSeeder extends Seeder
 {
@@ -16,17 +14,9 @@ class TaskResultsTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    #[NoReturn]
+    public function run(): void
     {
-        $userIds = User::pluck('id')->all();
-        $taskIds = Task::pluck('id')->all();
-        $exerciseGroupsIds = ExerciseGroup::pluck('id')->all();
-        TaskResult::factory(20)
-            ->state(fn() => [
-                'user_id' => array_rand($userIds, 1),
-                'task_id' => array_rand($taskIds, 1),
-                'exercise_group_id' => array_rand($exerciseGroupsIds, 1),
-            ])
-            ->create();
+        TaskResult::factory()->count(1000)->create();
     }
 }

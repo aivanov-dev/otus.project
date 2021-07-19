@@ -111,6 +111,7 @@ return [
                 'TaskExerciseSkillAggregation' => \App\GraphQL\Queries\Aggregations\TaskExerciseSkillAggregationQuery::class,
                 'TaskExerciseSkillAggregations' => \App\GraphQL\Queries\Aggregations\TaskExerciseSkillAggregationsQuery::class
                 'taskResultExerciseGroup' => \App\GraphQL\Queries\TaskResult\TaskResultExerciseGroupQuery::class
+                'taskResultsByTimeAggregation' => \App\GraphQL\Queries\Aggregations\TaskResultsByTimeAggregationQuery::class,
             ],
             'mutation'   => [
                 // ExampleMutation::class,
@@ -140,6 +141,8 @@ return [
         \App\GraphQL\Types\ExerciseType::class,
         \App\GraphQL\Types\Aggregations\TaskExerciseSkillAggregation::class,
         \App\GraphQL\Types\TaskResultType::class,
+        \App\GraphQL\Types\Aggregations\TaskResultByTimeAggregationType::class,
+        \App\GraphQL\Types\UserType::class,
     ],
 
     // The types will be loaded on demand. Default is to load all types on each request
