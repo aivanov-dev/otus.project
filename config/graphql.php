@@ -102,7 +102,7 @@ return [
     'schemas'                => [
         'default' => [
             'query'      => [
-                'influence'  => \App\GraphQL\Queries\Influence\InfluenceQuery::class,
+                'influence' => \App\GraphQL\Queries\Influence\InfluenceQuery::class,
                 'influences' => \App\GraphQL\Queries\Influence\InfluencesQuery::class,
                 'skill'      => \App\GraphQL\Queries\Skill\SkillQuery::class,
                 'skills'      => \App\GraphQL\Queries\Skill\SkillsQuery::class,
@@ -110,6 +110,7 @@ return [
                 'tasks'      => \App\GraphQL\Queries\Task\TasksQuery::class,
                 'TaskExerciseSkillAggregation' => \App\GraphQL\Queries\Aggregations\TaskExerciseSkillAggregationQuery::class,
                 'TaskExerciseSkillAggregations' => \App\GraphQL\Queries\Aggregations\TaskExerciseSkillAggregationsQuery::class
+                'taskResultExerciseGroup' => \App\GraphQL\Queries\TaskResult\TaskResultExerciseGroupQuery::class
             ],
             'mutation'   => [
                 // ExampleMutation::class,
@@ -138,6 +139,7 @@ return [
         \App\GraphQL\Types\TaskType::class,
         \App\GraphQL\Types\ExerciseType::class,
         \App\GraphQL\Types\Aggregations\TaskExerciseSkillAggregation::class,
+        \App\GraphQL\Types\TaskResultType::class,
     ],
 
     // The types will be loaded on demand. Default is to load all types on each request

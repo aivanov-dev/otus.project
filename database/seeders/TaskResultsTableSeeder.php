@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\ExerciseGroup;
+use App\Models\Task;
 use App\Models\TaskResult;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use JetBrains\PhpStorm\NoReturn;
-use Illuminate\Support\Facades\DB;
 
 class TaskResultsTableSeeder extends Seeder
 {
@@ -14,17 +16,17 @@ class TaskResultsTableSeeder extends Seeder
      *
      * @return void
      */
-    #[NoReturn]
-    public function run(): void
+    public function run()
     {
-        $userIds = DB::table('users')->select('id')->get()->pluck('id');
-        $taskIds = DB::table('tasks')->select('id')->get()->pluck('id');
-        $exerciseGroupsIds = DB::table('exercise_groups')->select('id')->get()->pluck('id');
-
-        TaskResult::factory()->count(20)->create([
-            'task_id' => $taskIds->random(),
-            'user_id' => $userIds->random(),
-            'exercise_group_id' => $exerciseGroupsIds->random(),
-        ]);
+        $userIds = User::pluck('id')->all();
+        $taskIds = Task::pluck('id')->all();
+        $exerciseGroupsIds = ExerciseGroup::pluck('id')->all();
+        TaskResult::factory(20)
+            ->state(fn() => [
+                'user_id' => array_rand($userIds, 1),
+                'task_id' => array_rand($taskIds, 1),
+                'exercise_group_id' => array_rand($exerciseGroupsIds, 1),
+            ])
+            ->create();
     }
 }

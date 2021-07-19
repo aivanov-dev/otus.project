@@ -89,3 +89,27 @@
   }
 }
 ```
+
+* Получить агрегацию по курсам и модулям по root-нодам
+
+```
+{
+taskResultExerciseGroup{
+  id
+  name
+  calculate_assessments
+}
+}
+```
+
+* Получить агрегацию по курсам и модулям
+
+```
+{
+taskResultExerciseGroup(id: 3){
+  id
+  name
+  calculate_assessments
+}
+}
+```
