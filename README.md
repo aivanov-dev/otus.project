@@ -89,3 +89,48 @@
   }
 }
 ```
+
+* Получить агрегацию баллов по времени
+
+
+```
+
+{
+    taskResultsByTimeAggregation(user_id: 1, date_from: "2020-01-01") {
+        user {
+          name
+        },
+        skill {
+          name
+        },
+        total_assessment
+    }
+}
+
+date_from - Дата в формате Y-m-d.
+
+```
+
+* Получить агрегацию по курсам и модулям по root-нодам
+
+```
+{
+taskResultExerciseGroup{
+  id
+  name
+  calculate_assessments
+}
+}
+```
+
+* Получить агрегацию по курсам и модулям
+
+```
+{
+taskResultExerciseGroup(id: 3){
+  id
+  name
+  calculate_assessments
+}
+}
+```
