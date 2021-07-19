@@ -54,6 +54,14 @@ task('deploy', [
 task('deploy:composer', 'cd {{release_path}} && composer install');
 task('artisan:key', 'cd {{release_path}} && php artisan key:generate');
 task('artisan:migrate', 'cd {{release_path}} && php artisan migrate');
+task('restart', function () {
+    within('{{release_path}}', function () {
+        run('cp ./deploy/nginx/otus.conf /etc/nginx/conf.d/otus.conf -f');
+        run('sudo service nginx restart');
+        run('cp ./deploy/supervisor.conf /etc/supervisor/conf.d/otus.conf -f');
+        run('sudo service supervisor restart');
+    });
+});
 
 task('swagger', 'cd {{release_path}} && php artisan l5-swagger:generate');
 
@@ -89,6 +97,7 @@ after('deploy:composer', 'artisan:key');
 before('deploy:symlink', 'artisan:migrate');
 before('deploy:symlink', 'docker:monitoring');
 before('deploy:symlink', 'swagger');
+after('deploy:symlink', 'restart');
 
 // Migrate database before symlink new release.
 
