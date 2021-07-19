@@ -27,6 +27,15 @@ pipelines:
           script:
             - cd deploy
             - dep deploy -n
+      - step:
+          image: snezhig/deployer
+          name: 'Rollback'
+          deployment: production
+          trigger: manual
+          script:
+            - cd deploy
+            - dep rollback -n
+
 
 definitions:
   services:

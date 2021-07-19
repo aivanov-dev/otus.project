@@ -43,7 +43,6 @@ task('deploy', [
     'deploy:writable',
     'deploy:env',
     'deploy:vendors',
-    'deploy:composer',
     'deploy:clear_paths',
     'deploy:symlink',
     'deploy:unlock',
@@ -93,11 +92,15 @@ task('docker:monitoring', function () {
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
+after('deploy:composer','deploy:composer');
 after('deploy:composer', 'artisan:key');
 before('deploy:symlink', 'artisan:migrate');
 before('deploy:symlink', 'docker:monitoring');
 before('deploy:symlink', 'swagger');
 after('deploy:symlink', 'restart');
 
+task('artisan:rollback', 'cd {{release_path}} && php artisan migrate:rollback')->local();
+before('rollback', 'artisan:rollback');
+after('rollback', 'deploy:composer');
 // Migrate database before symlink new release.
 
