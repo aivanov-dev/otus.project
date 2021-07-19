@@ -31,7 +31,6 @@ pipelines:
       - step:
           image: snezhig/deployer
           name: 'Rollback'
-          deployment: production
           trigger: manual
           script:
             - cd deploy
