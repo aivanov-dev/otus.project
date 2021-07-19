@@ -55,9 +55,9 @@ task('artisan:key', 'cd {{release_path}} && php artisan key:generate');
 task('artisan:migrate', 'cd {{release_path}} && php artisan migrate');
 task('restart', function () {
     within('{{release_path}}', function () {
-        run('cp ./deploy/nginx/otus.conf /etc/nginx/conf.d/otus.conf -f');
+        run('sudo cp ./deploy/nginx/otus.conf /etc/nginx/conf.d/otus.conf -f');
         run('sudo service nginx restart');
-        run('cp ./deploy/supervisor.conf /etc/supervisor/conf.d/otus.conf -f');
+        run('sudo cp ./deploy/supervisor.conf /etc/supervisor/conf.d/otus.conf -f');
         run('sudo service supervisor restart');
     });
 });
