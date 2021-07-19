@@ -25,7 +25,7 @@ add('writable_dirs', []);
 // Hosts
 
 host('82.146.34.101')
-    ->set('branch', 'feature/pipeline')
+    ->set('branch', 'production')
     ->user('otus')
 //    ->configFile('/.ssh/config')
 //    ->identityFile('/.ssh/otus.course')
