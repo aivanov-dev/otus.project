@@ -99,7 +99,7 @@ before('deploy:symlink', 'docker:monitoring');
 before('deploy:symlink', 'swagger');
 after('deploy:symlink', 'restart');
 
-task('artisan:rollback', 'cd {{release_path}} && php artisan migrate:rollback')->local();
+task('artisan:rollback', 'cd {{release_path}} && php artisan migrate:rollback');
 before('rollback', 'artisan:rollback');
 after('rollback', 'deploy:composer');
 // Migrate database before symlink new release.
