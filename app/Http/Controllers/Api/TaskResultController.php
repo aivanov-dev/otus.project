@@ -7,6 +7,7 @@ use App\Models\TaskResult;
 use App\Jobs\ResultSavedJob;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TaskResultResource;
 use App\Http\Resources\TaskResultCollection;
 use App\Http\Requests\TaskResults\ValidateIndexRequest;
 use App\Http\Requests\TaskResults\ValidateStoreRequest;
@@ -127,6 +128,6 @@ class TaskResultController extends Controller
 
         ResultSavedJob::dispatch($result);
 
-        return response()->json($result)->setStatusCode(201);
+        return response()->json(new TaskResultResource($result))->setStatusCode(201);
     }
 }
