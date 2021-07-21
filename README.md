@@ -134,3 +134,55 @@ taskResultExerciseGroup(id: 3){
 }
 }
 ```
+
+* Получить агрегацию баллов по заданиям, занятиям и по навыкам (все):
+
+```
+{
+  TaskExerciseSkillAggregations {
+  
+    exercise {
+      id
+      name
+    }
+    task {
+      id
+      title
+      description
+    }
+    skill {
+	  id
+      code
+      name
+    }
+    total_experience
+  }
+}
+
+```
+
+* Получить агрегацию баллов по заданиям, занятиям и по навыкам (по конкретному task_id):
+
+```
+{
+  TaskExerciseSkillAggregation (task_id:30) {
+  
+    exercise {
+      id
+      name
+    }
+    task {
+      id
+      title
+      description
+    }
+    skill {
+	  id
+      code
+      name
+    }
+    total_experience
+  }
+}
+
+```

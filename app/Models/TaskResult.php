@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Support\Collection;
 
 class TaskResult extends Model
 {
@@ -38,7 +39,27 @@ class TaskResult extends Model
      */
     public function exercise(): BelongsTo
     {
-        return $this->task()->first()->exercise();
+        return $this->task->exercise();
+    }
+
+    /**
+     * @param $exercideId
+     * @param $taskId
+     * @param $userId
+     *
+     * @return Collection
+     */
+    public function ofTaskAndExerciseAndUser($exercideId, $taskId, $userId)
+    {
+        return self::query()
+            ->select('task_results.*')
+            ->leftJoin('tasks', 'tasks.id', '=', 'task_results.task_id')
+            ->leftJoin('exercises', 'exercises.id', '=', 'tasks.exercise_id')
+            ->where('exercise_id', $exercideId)
+            ->where('task_id', $taskId)
+            ->where('user_id', $userId)
+            ->get()
+        ;
     }
 
     /**
