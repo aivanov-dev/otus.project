@@ -101,5 +101,4 @@ after('deploy:symlink', 'restart');
 
 task('artisan:rollback', 'cd {{release_path}} && php artisan migrate:rollback');
 before('rollback', 'artisan:rollback');
-// Migrate database before symlink new release.
 
