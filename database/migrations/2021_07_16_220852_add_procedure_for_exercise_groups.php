@@ -11,8 +11,9 @@ class AddProcedureForExerciseGroups extends Migration
      */
     public function up()
     {
-        \DB::statement(
-            'CREATE OR REPLACE FUNCTION calculate_assessments(exercise_groups)
+        if ($this->isSupported()) {
+            \DB::statement(
+                'CREATE OR REPLACE FUNCTION calculate_assessments(exercise_groups)
                         RETURNS INTEGER AS $$
                     DECLARE assessment_sum INTEGER;
                     BEGIN
@@ -28,7 +29,9 @@ class AddProcedureForExerciseGroups extends Migration
                         RETURN assessment_sum;
                     END;
                     $$  LANGUAGE plpgsql;');
+        }
     }
+
 
     /**
      * Reverse the migrations.
@@ -37,6 +40,14 @@ class AddProcedureForExerciseGroups extends Migration
      */
     public function down()
     {
-        \DB::statement('DROP FUNCTION calculate_assessments;');
+        if ($this->isSupported()) {
+            \DB::statement('DROP FUNCTION calculate_assessments;');
+        }
+    }
+
+    private function isSupported(): bool
+    {
+        $engine = \Illuminate\Support\Facades\DB::getPdo()->getAttribute(\PDO::ATTR_DRIVER_NAME);
+        return in_array($engine, ['mysql', 'pgsql']);
     }
 }
