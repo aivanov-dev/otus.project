@@ -67,24 +67,27 @@ class TaskExerciseSkillAggregationQuery extends Query
             ->having('tasks.id', '=', $args['task_id'])
             ->get()
             ->map(function ($value) {
-                return [
-                    'task' => [
-                        'id' => $value->task_id,
-                        'title' => $value->task_title,
-                        'description' => $value->task_description
-                    ],
-                    'exercise' => [
-                        'id' => $value->exercise_id,
-                        'name' => $value->exercise_name
-                    ],
-                    'skill' => [
-                        'id' => $value->skill_id,
-                        'code' => $value->skill_code,
-                        'name' => $value->skill_name
-                    ],
-                    'total_experience' => $value->total_experience
-                ];
+                if ($value->task_id && $value->exercise_id && $value->skill_id) {
+                    return [
+                        'task' => [
+                            'id' => $value->task_id,
+                            'title' => $value->task_title,
+                            'description' => $value->task_description
+                        ],
+                        'exercise' => [
+                            'id' => $value->exercise_id,
+                            'name' => $value->exercise_name
+                        ],
+                        'skill' => [
+                            'id' => $value->skill_id,
+                            'code' => $value->skill_code,
+                            'name' => $value->skill_name
+                        ],
+                        'total_experience' => $value->total_experience
+                    ];
+                }
             })
+            ->filter()
         ;
     }
 }
