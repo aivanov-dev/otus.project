@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AnotherTestTableForPipeline extends Migration
+class CreateTestForPipelineTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,10 @@ class AnotherTestTableForPipeline extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('test_for_pipeline', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -23,6 +26,6 @@ class AnotherTestTableForPipeline extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('test_for_pipeline');
     }
 }
