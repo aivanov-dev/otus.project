@@ -1134,6 +1134,94 @@
                 }
             }
         },
+        "/api/results/index": {
+            "get": {
+                "tags": [
+                    "Task Results"
+                ],
+                "summary": "Get list of resultss with pagination",
+                "description": "Get list of resultss with pagination",
+                "operationId": "getResultsList",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": "1"
+                        }
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "Number of results per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": "10"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/IndexTaskResultsResource"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Bad input data"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
+        "/api/results": {
+            "post": {
+                "tags": [
+                    "Task Results"
+                ],
+                "summary": "Store new result",
+                "description": "Returns result data",
+                "operationId": "storeResults",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreTaskResultRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TaskResult"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Bad input data"
+                    },
+                    "500": {
+                        "description": "Error"
+                    }
+                }
+            }
+        },
         "/api/users": {
             "get": {
                 "tags": [
@@ -1741,6 +1829,65 @@
                     "name": "Project"
                 }
             },
+            "TaskResult": {
+                "title": "TaskResult",
+                "description": "TaskResult model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "task_id": {
+                        "title": "TaskId",
+                        "description": "Id of the task result corresponds to",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": "1"
+                    },
+                    "user_id": {
+                        "title": "UserId",
+                        "description": "Id of the user result corresponds to",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": "1"
+                    },
+                    "exercise_group_id": {
+                        "title": "Course or module id",
+                        "description": "Course or module id",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": "1"
+                    },
+                    "assessment": {
+                        "title": "Assessment mark",
+                        "description": "Assessment mark",
+                        "type": "number",
+                        "format": "float",
+                        "example": "10"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "TaskResult"
+                }
+            },
             "IndexAchievementResource": {
                 "title": "IndexAchievementResource",
                 "description": "Achievement resource",
@@ -1760,6 +1907,27 @@
                 "type": "object",
                 "xml": {
                     "name": "IndexAchievementResource"
+                }
+            },
+            "IndexTaskResultsResource": {
+                "title": "IndexTaskResultsResource",
+                "description": "Task result resource",
+                "properties": {
+                    "meta": {
+                        "$ref": "#/components/schemas/Meta"
+                    },
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "ref": null
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "IndexTaskResultsResource."
                 }
             },
             "ProjectResource": {
@@ -1836,6 +2004,48 @@
                         "type": "integer",
                         "format": "int64",
                         "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "StoreTaskResultRequest": {
+                "title": "Store task result request",
+                "description": "Store result request body data",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "task_id": {
+                        "title": "TaskId",
+                        "description": "Id of the task result corresponds to",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": "1"
+                    },
+                    "user_id": {
+                        "title": "UserId",
+                        "description": "Id of the user result corresponds to",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": "1"
+                    },
+                    "exercise_group_id": {
+                        "title": "Course or module id",
+                        "description": "Course or module id",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": "1"
+                    },
+                    "assessment": {
+                        "title": "Assessment mark",
+                        "description": "Assessment mark",
+                        "type": "number",
+                        "format": "float",
+                        "example": "10"
                     }
                 },
                 "type": "object"
