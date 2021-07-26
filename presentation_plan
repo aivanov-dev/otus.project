@@ -1,0 +1,10 @@
+1. Нарисовать схему exchange and two queues, exchange fanout, broadcast job to to queues, 
+     приложение смотрит с какой очереди приходит job и вычисляет либо ачивку либо прогресс       пользователя.
+
+2. Расчёт ачивок: есть компонент symfony/expression-language который испльзуется symfony, например для анализа 
+выражений в yaml конфигурационных файлах этого фреймворка. Сами разработчики пишут, что это отличный
+кандидат для создания business rule engine. Его мы используем для задания условий для ачивок.
+Например, taskResult.ofTaskAndExerciseAndUser(taskResult.task.exercise.id, taskResult.task_id, taskResult.user_id).isNotEmpty() , где taskResult это модель Eloquent c сохранённым результатом.
+
+
+3. Расчёт прогресса студента.

@@ -87,7 +87,7 @@ class UserController extends Controller
     {
         try {
 //            $user = new UserResource(User::findOrFail($id));
-            $user = User::query()->where('id', $id)->with(['achievements', 'experiences'])->get();
+            $user = User::query()->where('id', $id)->with(['achievements', 'learnedSkills'])->get();
         } catch (ModelNotFoundException $exception) {
             return new JsonResponse([
                 $exception->getMessage(),
