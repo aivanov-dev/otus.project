@@ -44,12 +44,30 @@ class TaskResult extends Model
 
     /**
      * @param $exercideId
+     * @param $userId
+     *
+     * @return Collection
+     */
+    public function allOfExerciseAndUser($exercideId, $userId): Collection
+    {
+        return self::query()
+            ->select('task_results.*')
+            ->leftJoin('tasks', 'tasks.id', '=', 'task_results.task_id')
+            ->leftJoin('exercises', 'exercises.id', '=', 'tasks.exercise_id')
+            ->where('exercise_id', $exercideId)
+            ->where('user_id', $userId)
+            ->get()
+            ;
+    }
+
+    /**
+     * @param $exercideId
      * @param $taskId
      * @param $userId
      *
      * @return Collection
      */
-    public function ofTaskAndExerciseAndUser($exercideId, $taskId, $userId)
+    public function ofTaskAndExerciseAndUser($exercideId, $taskId, $userId): Collection
     {
         return self::query()
             ->select('task_results.*')
