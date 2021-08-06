@@ -62,14 +62,14 @@ services:
     ports:
       - "${INTERFACE:-127.0.0.1}:${DB_DOCKER_PORT}:${DB_PORT}"
 
-  mailhog:
-    container_name: ${COMPOSE_PROJECT_NAME}_mailhog
-    image: mailhog/mailhog
-    ports:
-      - "${INTERFACE:-127.0.0.1}:3025:1025" # smtp server
-      - "${INTERFACE:-127.0.0.1}:8025:8025" # web ui
-    networks:
-      - app-network
+#  mailhog:
+#    container_name: ${COMPOSE_PROJECT_NAME}_mailhog
+#    image: mailhog/mailhog
+#    ports:
+#      - "${INTERFACE:-127.0.0.1}:3025:1025" # smtp server
+#      - "${INTERFACE:-127.0.0.1}:8025:8025" # web ui
+#    networks:
+#      - app-network
 
   rabbit:
     container_name: ${COMPOSE_PROJECT_NAME}_rabbitmq

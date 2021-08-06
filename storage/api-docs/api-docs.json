@@ -1680,6 +1680,10 @@
                 "title": "UserResource",
                 "description": "User resource",
                 "properties": {
+                    "id": {
+                        "title": "id",
+                        "example": 1
+                    },
                     "name": {
                         "title": "name",
                         "example": "John"

@@ -13,6 +13,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *     ),
  *
  *     @OA\Property(
+ *          property="id",
+ *          title="id",
+ *          example=1
+ *     ),
+ *
+ *     @OA\Property(
  *         property="name",
  *         title="name",
  *         example="John"
@@ -32,6 +38,7 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'   => $this->getKey(),
             'name' => $this->name,
         ];
     }
