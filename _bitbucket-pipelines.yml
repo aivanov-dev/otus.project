@@ -1,0 +1,46 @@
+# This is an example Starter pipeline configuration
+# Use a skeleton to build, test and deploy using manual and parallel steps
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: php:8.0-fpm
+pipelines:
+  branches:
+    master:
+      - step:
+          name: 'Migration and Tests'
+          script:
+            - apt-get update && apt-get install -qy git curl libzip-dev libpq-dev zip
+            - docker-php-ext-install zip pdo pdo_mysql pdo_pgsql sockets
+            - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+            - composer install
+            - ln -f -s .env.pipelines .env
+            - cat .env
+            - php artisan migrate --no-interaction --force -vvv
+            - php artisan test
+          services:
+            - postgres
+    production:
+      - step:
+          image: snezhig/deployer
+          name: 'Deployment to production'
+          deployment: production
+          script:
+            - cd deploy
+            - dep deploy -n
+      - step:
+          image: snezhig/deployer
+          name: 'Rollback'
+          trigger: manual
+          script:
+            - cd deploy
+            - dep rollback -n
+
+
+definitions:
+  services:
+    postgres:
+      image: postgres
+      environment:
+        POSTGRES_PASSWORD: 'pipeline_password'
+        POSTGRES_USER: 'pipeline_user'
+        POSTGRES_DB: 'pipeline'
