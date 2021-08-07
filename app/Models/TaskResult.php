@@ -16,7 +16,7 @@ class TaskResult extends Model
     /**
      * @var string[]
      */
-    protected $fillable = ['task_id', 'user_id', 'exercise_group_id', 'assessment'];
+    protected $fillable = ['task_id', 'user_id', 'exercise_group_id', 'assessment', 'processed'];
 
     /**
      * @return BelongsTo

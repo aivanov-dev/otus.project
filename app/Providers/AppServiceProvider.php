@@ -30,10 +30,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->addNewCollectionMacros();
-
-        Queue::after(function (JobProcessed $event) {
-            ResultSavedEvent::dispatch($event->job->resolveName(), $event->job->getQueue(), unserialize($event->job->payload()['data']['command'])->taskResult);
-        });
     }
 
     /**

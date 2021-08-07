@@ -2,11 +2,16 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\ProcessTaskResult;
+use App\Models\Achievement;
+use App\Models\Experience;
 use App\Models\Skill;
 use App\Models\Task;
 use App\Models\TaskResult;
 use App\Models\User;
+use App\Services\UserProgressService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class Test extends Command
 {
@@ -39,13 +44,25 @@ class Test extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(UserProgressService $service)
     {
-        $result = TaskResult::find(8);
-//        dump($result->skills->count());
-        $task = Task::find(23);
-//        dump($task->skills->count());
-        dump(Skill::first()->tasks->count());
+//        $a = Achievement::query()
+//            ->whereDoesntHave('users', fn($query) => $query->where('id', '=', 4))
+//            ->get();
+//        dd($a->map(fn($a) => $a->id));
+//        Experience::se
+//tBindings([':initial' => 120])
+//            ->where('user_id', 1)
+//            ->where('skill_id', 1)
+//            ->updateOrCreate([
+//            'experience' => DB::raw(":initial")
+//        ]);
+//        dd(1);
+        //        dd(env('RABBIT_MQ_ACHIEVEMENTS_QUEUE'));
+//        dd(env('RABBIT_MQ_EXPERIENCE_QUEUE'));
+        $result = TaskResult::query()->limit(1)->first();
+//        $service->computeUserAchievements($result);
+        ProcessTaskResult::dispatch($result)->onQueue(env('RABBIT_MQ_EXPERIENCE_QUEUE'));
         return 0;
     }
 }
