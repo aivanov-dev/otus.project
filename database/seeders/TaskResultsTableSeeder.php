@@ -18,6 +18,6 @@ class TaskResultsTableSeeder extends Seeder
     #[NoReturn]
     public function run(): void
     {
-        Collection::times(10)->each(fn() => TaskResult::factory()->create());
+        Collection::times(1000)->each(fn() => TaskResult::factory()->create());
     }
 }

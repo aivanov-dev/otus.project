@@ -6,17 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Skills\GetLevelNameByExperienceRequest;
 use App\Http\Requests\Skills\StoreSkillRequest;
 use App\Http\Requests\Skills\UpdateSkillRequest;
-use App\Http\Resources\SkillLevelResource;
 use App\Http\Resources\SkillResource;
 use App\Models\Skill;
-use App\Models\SkillLevel;
-use App\Repositories\Interfaces\SkillLevelRepositoryInterface;
+use App\Services\SkillLevel\Repositories\SkillLevelRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
 class SkillController extends Controller
 {
-    public function __construct(private SkillLevelRepositoryInterface $skillLevelRepository) {}
+    public function __construct(private SkillLevelRepository $skillLevelRepository) {}
 
     /**
      * Display a listing of the skill resource.

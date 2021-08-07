@@ -16,7 +16,6 @@ class SafeExpressionLanguage implements Rule
      * @param mixed $value
      * @return bool
      */
-    #[Pure]
     public function passes($attribute, $value): bool
     {
         return !$this->prohibitedActions()->contains(Str::lower($value));

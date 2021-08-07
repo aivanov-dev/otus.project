@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Exception;
 use App\Models\TaskResult;
 use App\Models\Experience;
 use App\Models\Achievement;
@@ -48,7 +47,7 @@ class UserProgressService
     {
         $taskInfluences = $taskResult->task->influences;
         foreach ($taskInfluences as $taskInfluence) {
-            if(!$taskResult->processed) {
+            if (!$taskResult->processed) {
                 Experience::firstOrCreate(
                     ['user_id' => $taskResult->user_id, 'skill_id' => $taskInfluence->skill_id],
                     ['experience' => 0]

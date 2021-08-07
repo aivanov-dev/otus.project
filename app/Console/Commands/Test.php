@@ -9,8 +9,10 @@ use App\Models\Skill;
 use App\Models\Task;
 use App\Models\TaskResult;
 use App\Models\User;
+use App\Services\SkillLevel\SkillLevelService;
 use App\Services\UserProgressService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class Test extends Command
@@ -20,7 +22,7 @@ class Test extends Command
      *
      * @var string
      */
-    protected $signature = 'test';
+    protected $signature = 'test {--Q|--queue=}';
 
     /**
      * The console command description.
@@ -44,8 +46,14 @@ class Test extends Command
      *
      * @return int
      */
-    public function handle(UserProgressService $service)
+    public function handle(UserProgressService $service, SkillLevelService $levelService)
     {
+        $user = User::find(39);
+        $tasks = TaskResult::query()->where('processed', false)->get()->count();
+
+        Config::set('queue.default', 'sync');
+        dd($this->option('queue'));
+//        dd(config('queue'));
 //        $a = Achievement::query()
 //            ->whereDoesntHave('users', fn($query) => $query->where('id', '=', 4))
 //            ->get();
@@ -62,7 +70,8 @@ class Test extends Command
 //        dd(env('RABBIT_MQ_EXPERIENCE_QUEUE'));
         $result = TaskResult::query()->limit(1)->first();
 //        $service->computeUserAchievements($result);
-        ProcessTaskResult::dispatch($result)->onQueue(env('RABBIT_MQ_EXPERIENCE_QUEUE'));
+        dump($levelService->getLevelByExperience(501));
+//        ProcessTaskResult::dispatch($result)->onQueue(env('RABBIT_MQ_EXPERIENCE_QUEUE'));
         return 0;
     }
 }

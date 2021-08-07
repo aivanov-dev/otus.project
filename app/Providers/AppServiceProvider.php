@@ -2,11 +2,8 @@
 
 namespace App\Providers;
 
-use App\Events\ResultSavedEvent;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Queue\Events\JobProcessed;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,22 +26,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->addNewCollectionMacros();
     }
 
-    /**
-     * Collection method "countWithCondition" can be used in achievement setup.
-     *
-     * @return void
-     */
-    private function addNewCollectionMacros(): void
-    {
-        Collection::macro('countWithCondition', function (string $property, string $value, string $operator = '==') {
-            $filteredCollection = $this->filter(function ($item, $key) use ($property, $value, $operator) {
-                return version_compare((float)$item->{$property}, (float)$value, $operator);
-            });
-
-            return $filteredCollection->count();
-        });
-    }
 }
