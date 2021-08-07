@@ -9,6 +9,7 @@ pipelines:
        - step:
           name: ''
           script:
+            - apt update && apt install -y git
             - git push --mirror git@github.com:Snezhig/otus.project.git
 #      - step:
 #          name: 'Migration and Tests'
