@@ -9,9 +9,8 @@ pipelines:
   branches:
     master:
        - step:
-          name: ''
           script:
-            - git push --mirror git@github.com:Snezhig/otus.project.git
+            - git push git@github.com:Snezhig/otus.project.git
 #      - step:
 #          name: 'Migration and Tests'
 #          script:
