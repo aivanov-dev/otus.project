@@ -2,14 +2,15 @@
 # Use a skeleton to build, test and deploy using manual and parallel steps
 # -----
 # You can specify a custom docker image from Docker Hub as your build environment.
-image: php:8.0-fpm
+#image: php:8.0-fpm
+clone:
+  depth: full
 pipelines:
   branches:
     master:
        - step:
           name: ''
           script:
-            - apt update && apt install -y git
             - git push --mirror git@github.com:Snezhig/otus.project.git
 #      - step:
 #          name: 'Migration and Tests'
