@@ -3,18 +3,21 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Skills\GetLevelNameByExperienceRequest;
+use App\Http\Requests\Skills\GetLevelByExperienceRequest;
 use App\Http\Requests\Skills\StoreSkillRequest;
 use App\Http\Requests\Skills\UpdateSkillRequest;
 use App\Http\Resources\SkillResource;
 use App\Models\Skill;
 use App\Services\SkillLevel\Repositories\SkillLevelRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 
 class SkillController extends Controller
 {
-    public function __construct(private SkillLevelRepository $skillLevelRepository) {}
+    public function __construct(private SkillLevelRepository $skillLevelRepository)
+    {
+    }
 
     /**
      * Display a listing of the skill resource.
@@ -138,6 +141,12 @@ class SkillController extends Controller
      *     tags={"Skills"},
      *     summary="Update skill",
      *     description="Returns updated skill",
+     *     @OA\Parameter(
+     *         name="id",
+     *         description="Skill id",
+     *         required=true,
+     *         in="path"
+     *     ),
      *     @OA\RequestBody(
      *         required=false,
      *         @OA\JsonContent(ref="#/components/schemas/UpdateSkillRequest")
@@ -164,12 +173,15 @@ class SkillController extends Controller
     public function update(UpdateSkillRequest $request, int $id): JsonResponse
     {
         try {
-            Skill::findOrFail($id)->update($request->validated());
+            $skill = Skill::findOrFail($id);
+            $skill->update($request->validated());
         } catch (ModelNotFoundException $e) {
             return new JsonResponse(['errors' => "Skill with id $id not found"], 404);
+        } catch (QueryException $e) {
+            return new JsonResponse(['errors' => $e->getMessage()]);
         }
 
-        return new JsonResponse(['success' => true], 202);
+        return new JsonResponse(new SkillResource($skill), 202);
     }
 
     /**
@@ -181,6 +193,15 @@ class SkillController extends Controller
      *     tags={"Skills"},
      *     summary="Delete skill",
      *     description="Returns operation status",
+     *     @OA\Parameter(
+     *     name="id",
+     *     description="Skill id",
+     *     required=true,
+     *     in="path",
+     *     @OA\Schema(
+     *         type="integer"
+     *     )
+     *     ),
      *     @OA\Response(
      *         response=204,
      *         description="Successful operation",
@@ -245,10 +266,20 @@ class SkillController extends Controller
      *
      * @OA\Get(
      *     path="/api/skills/levels/search",
-     *     operationId="getSkillsLevelByValue",
+     *     operationId="getSkillsLevelByExpericence",
      *     tags={"Skills"},
-     *     summary="Get skills level by value",
+     *     summary="Get skill's level by experience",
      *     description="Returns name of skills level",
+     *     @OA\Parameter(
+     *          name="experience",
+     *          description="Skill experience",
+     *          example=201,
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
@@ -264,10 +295,10 @@ class SkillController extends Controller
      *     ),
      * )
      *
-     * @param GetLevelNameByExperienceRequest $request
+     * @param GetLevelByExperienceRequest $request
      * @return JsonResponse
      */
-    public function getLevelName(GetLevelNameByExperienceRequest $request): JsonResponse
+    public function getLevelName(GetLevelByExperienceRequest $request): JsonResponse
     {
         return new JsonResponse($this->skillLevelRepository->getLevelByExperience($request->get('experience')));
     }

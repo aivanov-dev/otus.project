@@ -28,6 +28,10 @@
 * `php artisan queue:work --queue=achievements` - Запускает consumer для очереди ачивок
 * `php artisan queue:work --queue=experience` - Запускает consumer для очереди расчёта опыта
 
+## Ide Helper
+* `php artisan ide-helper:generate` - генерация документации для ide
+* [Библиотека для работы](https://github.com/barryvdh/laravel-ide-helper)
+
 ## Swagger
 
 * Команда для генерации свагера - `php artisan l5-swagger:generate`

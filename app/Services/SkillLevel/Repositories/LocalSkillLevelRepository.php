@@ -31,6 +31,6 @@ class LocalSkillLevelRepository implements SkillLevelRepository
     {
         return Collection::make($this->all())
             ->takeUntil(fn(array $level) => $experience <= $level['experience'])
-            ->first();
+            ->last();
     }
 }

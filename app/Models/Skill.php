@@ -21,6 +21,12 @@ class Skill extends Model
      */
     public $timestamps = false;
 
+    protected static function boot()
+    {
+        parent::boot();
+        self::deleting();
+    }
+
     /**
      * @return HasMany
      */

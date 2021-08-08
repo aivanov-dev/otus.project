@@ -45,8 +45,8 @@ class UpdateSkillRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|max:32',
-            'code' => 'string|max:32|unique:App\Models\Skill'
+            'name' => 'required_without:code|string|max:32',
+            'code' => 'required_without:name|string|max:32'
         ];
     }
 }

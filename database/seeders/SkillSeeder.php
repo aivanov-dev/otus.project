@@ -16,11 +16,11 @@ class SkillSeeder extends Seeder
     public function run()
     {
         Collection::make([
-            'reading'   => 'Письмо',
+            'reading'   => 'Чтение',
             'listening' => 'Аудирование',
             'grammar'   => 'Грамматика',
             'speaking'  => 'Говорение',
-            'writing'   => 'Чтение',
+            'writing'   => 'Письмо',
         ])->each(fn($item, $key) => Skill::create([
             'code' => $key,
             'name' => $item
