@@ -84,5 +84,13 @@ Route::namespace('App\Http\Controllers\Api')->group(function () {
         Route::put('/{id}', 'TaskController@update');
         Route::delete('/{id}', 'TaskController@delete');
     });
+
+    //TaskResultsStatistics
+    Route::prefix('result-statistics-tasks')->group(function () {
+        Route::get('/', 'TaskResultStatisticsController@index');
+        Route::get('/{id}', 'TaskResultStatisticsController@get');
+        Route::put('/{id}', 'TaskResultStatisticsController@update');
+        Route::delete('/{id}', 'TaskResultStatisticsController@delete');
+    });
 });
 
