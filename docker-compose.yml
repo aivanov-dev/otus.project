@@ -89,6 +89,10 @@ services:
       - './.data/redis:/data'
     networks:
       - app-network
+    ports:
+      - "${INTERFACE:-127.0.0.1}:6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
 
