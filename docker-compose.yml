@@ -73,7 +73,7 @@ services:
 
   rabbit:
     container_name: ${COMPOSE_PROJECT_NAME}_rabbitmq
-    image: rabbitmq:3-management
+    image: rabbitmq:3.6.1-management
     networks:
       - app-network
     environment:
