@@ -59,3 +59,149 @@
 * Адрес: `${INTERFACE}/graphiql`
 * [Библиотека для работы](https://github.com/rebing/graphql-laravel)
 
+* Задача с влияниями и навыками:
+
+```
+{
+  task(id: 1) {
+    id
+    influences {
+      value
+      id
+      skill {
+        name
+        code
+      }
+    }
+  }
+}
+
+```
+
+* Влияние с задачей и навыком
+
+```
+{
+  influence(id: 1) {
+    value
+    task {
+      title
+      description
+    }
+    skill {
+      name
+    }
+  }
+}
+```
+
+* Все навыки, их влияния и задачи
+
+```
+{
+  skills{
+    name,
+    influences{
+      task{
+        title
+      }
+    }
+  }
+}
+```
+
+* Получить агрегацию баллов по времени
+
+```
+
+{
+    taskResultsByTimeAggregation(user_id: 1, date_from: "2020-01-01") {
+        user {
+          name
+        },
+        skill {
+          name
+        },
+        total_assessment
+    }
+}
+
+date_from - Дата в формате Y-m-d.
+
+```
+
+* Получить агрегацию по курсам и модулям по root-нодам
+
+```
+{
+taskResultExerciseGroup{
+  id
+  name
+  calculate_assessments
+}
+}
+```
+
+* Получить агрегацию по курсам и модулям
+
+```
+{
+taskResultExerciseGroup(id: 3){
+  id
+  name
+  calculate_assessments
+}
+}
+```
+
+* Получить агрегацию баллов по заданиям, занятиям и по навыкам (все):
+
+```
+{
+  TaskExerciseSkillAggregations {
+  
+    exercise {
+      id
+      name
+    }
+    task {
+      id
+      title
+      description
+    }
+    skill {
+	  id
+      code
+      name
+    }
+    total_experience
+  }
+}
+
+```
+
+* Получить агрегацию баллов по заданиям, занятиям и по навыкам (по конкретному task_id):
+
+```
+{
+  TaskExerciseSkillAggregation (task_id:30) {
+  
+    exercise {
+      id
+      name
+    }
+    task {
+      id
+      title
+      description
+    }
+    skill {
+	  id
+      code
+      name
+    }
+    total_experience
+  }
+}
+
+```

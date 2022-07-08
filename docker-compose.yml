@@ -67,7 +67,7 @@ services:
 
   rabbit:
     container_name: ${COMPOSE_PROJECT_NAME}_rabbitmq
-    image: rabbitmq:3-management
+    image: rabbitmq:3.6.1-management
     networks:
       - app-network
     environment:
@@ -83,6 +83,10 @@ services:
       - './.data/redis:/data'
     networks:
       - app-network
+    ports:
+      - "${INTERFACE:-127.0.0.1}:6379:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
 
