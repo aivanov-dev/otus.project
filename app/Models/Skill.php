@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -20,6 +21,12 @@ class Skill extends Model
      */
     public $timestamps = false;
 
+    protected static function boot()
+    {
+        parent::boot();
+        self::deleting();
+    }
+
     /**
      * @return HasMany
      */
@@ -34,5 +41,10 @@ class Skill extends Model
     public function experiences(): HasMany
     {
         return $this->hasMany(Experience::class);
+    }
+
+    public function tasks(): BelongsToMany
+    {
+        return $this->belongsToMany(Task::class, 'influences');
     }
 }

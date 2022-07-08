@@ -1,12 +1,48 @@
-# Template PHP Build
 
-# This template allows you to validate your PHP application.
-# The workflow allows running tests and code linting on the default branch.
-
+clone:
+  depth: full
 pipelines:
   branches:
     master:
-      - step:
-          name: Our Very First Pipeline!
+       - step:
           script:
-            - echo "Hello World!"
+            - git push git@github.com:Snezhig/otus.project.git
+#      - step:
+#          name: 'Migration and Tests'
+#          script:
+#            - apt-get update && apt-get install -qy git curl libzip-dev libpq-dev zip
+#            - docker-php-ext-install zip pdo pdo_mysql pdo_pgsql sockets
+#            - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+#            - composer install
+#            - ln -f -s .env.pipelines .env
+#            - cat .env
+#            - php artisan migrate --no-interaction --force -vvv
+#            - php artisan test
+#          services:
+#            - postgres
+#    production:
+#      - step:
+#          image: snezhig/deployer
+#          name: 'Deployment to production'
+#          deployment: production
+#          script:
+#            - cd deploy
+#            - dep deploy -n
+#      - step:
+#          image: snezhig/deployer
+#          name: 'Rollback'
+#          trigger: manual
+#          script:
+#            - cd deploy
+#            - dep rollback -n
+#
+#
+#definitions:
+#  services:
+#    postgres:
+#      image: postgres
+#      environment:
+#        POSTGRES_PASSWORD: 'pipeline_password'
+#        POSTGRES_USER: 'pipeline_user'
+#        POSTGRES_DB: 'pipeline'
+

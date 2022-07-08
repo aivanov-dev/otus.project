@@ -24,6 +24,7 @@ class CreateTaskResultsTable extends Migration
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
             $table->tinyInteger('assessment');
+            $table->boolean('processed')->default(false);
             $table->timestamps();
         });
     }

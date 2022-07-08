@@ -26,10 +26,20 @@ class TaskResultFactory extends Factory
 
     public function definition(): array
     {
+        $user = User::query()->inRandomOrder()->limit(1)->first();
+        $query = Task::query();
+        $userTasks = $user->taskResults->map(fn(TaskResult $result) => $result->task->getKey());
+        if($userTasks->isNotEmpty()){
+            $query->whereNotIn('id', $userTasks);
+        }
+        $task = $query->inRandomOrder()->limit(1)->first();
+        if(!$task){
+            return $this->definition();
+        }
         return [
-            'user_id' => User::all()->random(),
-            'task_id' => Task::all()->random(),
-            'exercise_group_id' => ExerciseGroup::all()->random(),
+            'user_id' =>$user->getKey(),
+            'task_id' => $task->getKey(),
+            'exercise_group_id' => $task->exercise->groups->random(),
             'assessment' => $this->faker->numberBetween(1, 10),
             'created_at' => $this->faker->dateTimeBetween('-2 years')
         ];

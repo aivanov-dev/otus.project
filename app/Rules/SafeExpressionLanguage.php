@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use JetBrains\PhpStorm\Pure;
 use Illuminate\Contracts\Validation\Rule;
@@ -15,16 +16,16 @@ class SafeExpressionLanguage implements Rule
      * @param mixed $value
      * @return bool
      */
-    #[Pure]
     public function passes($attribute, $value): bool
     {
-        foreach (['save', 'update', 'create', 'make', 'delete', 'push'] as $needle) {
-            if (Str::contains($value, $needle)) {
-                return false;
-            }
-        }
+        return !$this->prohibitedActions()->contains(Str::lower($value));
+    }
 
-        return true;
+    public function prohibitedActions(): Collection
+    {
+        return Collection::make([
+            'save', 'update', 'create', 'make', 'delete', 'push'
+        ]);
     }
 
     /**

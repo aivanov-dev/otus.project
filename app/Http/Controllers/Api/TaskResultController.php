@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Exception;
 use App\Models\TaskResult;
-use App\Jobs\ResultSavedJob;
+use App\Jobs\ProcessTaskResult;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TaskResultResource;
@@ -126,7 +126,7 @@ class TaskResultController extends Controller
             ])->setStatusCode(500);
         }
 
-        ResultSavedJob::dispatch($result);
+        ProcessTaskResult::dispatch($result);
 
         return response()->json(new TaskResultResource($result))->setStatusCode(201);
     }

@@ -2,8 +2,7 @@
 
 namespace App\Providers;
 
-use App\Repositories\Interfaces\SkillLevelRepositoryInterface;
-use App\Repositories\SkillLevelRepository;
+use App\Services\SkillLevel\Repositories\LocalSkillLevelRepository;
 use Illuminate\Support\ServiceProvider;
 
 class   RepositoryServiceProvider extends ServiceProvider
@@ -16,8 +15,8 @@ class   RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-    SkillLevelRepositoryInterface::class,
-    SkillLevelRepository::class
+            \App\Services\SkillLevel\Repositories\SkillLevelRepository::class,
+            LocalSkillLevelRepository::class
         );
     }
 

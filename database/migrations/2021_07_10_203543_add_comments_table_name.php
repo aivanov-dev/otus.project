@@ -40,7 +40,7 @@ class AddCommentsTableName extends Migration
     {
         if ($this->isSupported()) {
             \DB::statement("COMMENT ON TABLE exercise_groups IS ''");
-            \DB::statement("COMMENT ON TABLE user IS ''");
+            \DB::statement("COMMENT ON TABLE users IS ''");
             \DB::statement("COMMENT ON TABLE exercises IS ''");
             \DB::statement("COMMENT ON TABLE tasks IS ''");
             \DB::statement("COMMENT ON TABLE task_results IS ''");

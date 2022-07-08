@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\TaskResult;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 use JetBrains\PhpStorm\NoReturn;
 use Illuminate\Support\Facades\DB;
 
@@ -17,6 +18,6 @@ class TaskResultsTableSeeder extends Seeder
     #[NoReturn]
     public function run(): void
     {
-        TaskResult::factory()->count(1000)->create();
+        Collection::times(1000)->each(fn() => TaskResult::factory()->create());
     }
 }

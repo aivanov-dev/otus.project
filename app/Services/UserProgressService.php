@@ -2,12 +2,11 @@
 
 namespace App\Services;
 
-use Exception;
 use App\Models\TaskResult;
 use App\Models\Experience;
 use App\Models\Achievement;
-use App\Jobs\ResultSavedJob;
-use App\Events\ResultSavedEvent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 class UserProgressService
@@ -28,51 +27,33 @@ class UserProgressService
     }
 
     /**
-     * @param ResultSavedEvent $event
-     *
-     * @throws Exception
-     */
-    public function checkUserProgress(ResultSavedEvent $event): void
-    {
-        if ($event->jobName === ResultSavedJob::class && $event->queueName === $_ENV['RABBIT_MQ_ACHIEVEMENTS_QUEUE']) {
-            $this->computeUserAchievements($event->taskResult);
-            return ;
-        }
-
-        if ($event->jobName === ResultSavedJob::class && $event->queueName === $_ENV['RABBIT_MQ_EXPERIENCE_QUEUE']) {
-            $this->computeUserExperience($event->taskResult);
-            return ;
-        }
-
-
-        throw new Exception("ResultSavedJob must come from {$_ENV['RABBIT_MQ_ACHIEVEMENTS_QUEUE']} or {$_ENV['RABBIT_MQ_EXPERIENCE_QUEUE']} queues only!");
-    }
-
-    /**
      * @param TaskResult $taskResult
      */
-    private function computeUserAchievements(TaskResult $taskResult): void
+    public function computeUserAchievements(TaskResult $taskResult): void
     {
-        Achievement::chunk(100, function ($achievements) use ($taskResult) {
-            foreach ($achievements as $achievement) {
+        Achievement::query()
+            ->whereDoesntHave('users', fn(Builder $query) => $query->where('id', '=', $taskResult->user->getKey()))
+            ->chunk(50, fn(Collection $achievements) => $achievements->each(function (Achievement $achievement) use ($taskResult) {
                 if ($this->expressionLanguage->evaluate($achievement->expression, ['taskResult' => $taskResult])) {
-                    $taskResult->user()->first()->achievements()->syncWithoutDetaching([$achievement->id]);
+                    $taskResult->user()->first()->achievements()->syncWithoutDetaching([$achievement->getKey()]);
                 }
-            }
-        });
+            }));
     }
 
     /**
      * @param TaskResult $taskResult
      */
-    private function computeUserExperience(TaskResult $taskResult): void
+    public function computeUserExperience(TaskResult $taskResult): void
     {
         $taskInfluences = $taskResult->task->influences;
         foreach ($taskInfluences as $taskInfluence) {
-            Experience::updateOrCreate(
-                ['user_id' => $taskResult->user_id, 'skill_id' => $taskInfluence->skill_id],
-                ['experience' => $taskResult->assessment * $taskInfluence->value / 100]
-            );
+            if (!$taskResult->processed) {
+                Experience::firstOrCreate(
+                    ['user_id' => $taskResult->user_id, 'skill_id' => $taskInfluence->skill_id],
+                    ['experience' => 0]
+                )->increment('experience', $taskResult->assessment * $taskInfluence->value / 100);
+                $taskResult->update(['processed' => true]);
+            }
         }
     }
 }

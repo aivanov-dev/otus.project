@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\TaskResult;
+use App\Services\UserProgressService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -10,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 
-class ResultSavedJob implements ShouldQueue
+class ProcessTaskResult implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -34,8 +35,9 @@ class ResultSavedJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(UserProgressService $service)
     {
-        //
+        $service->computeUserExperience($this->taskResult);
+        ProcessAchievement::dispatch($this->taskResult)->onQueue(env('RABBIT_MQ_ACHIEVEMENTS_QUEUE'));
     }
 }

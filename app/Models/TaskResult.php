@@ -6,7 +6,7 @@ use App\Traits\HasCountMetric;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 
 class TaskResult extends Model
@@ -16,7 +16,7 @@ class TaskResult extends Model
     /**
      * @var string[]
      */
-    protected $fillable = ['task_id', 'user_id', 'exercise_group_id', 'assessment'];
+    protected $fillable = ['task_id', 'user_id', 'exercise_group_id', 'assessment', 'processed'];
 
     /**
      * @return BelongsTo
@@ -76,28 +76,20 @@ class TaskResult extends Model
             ->where('exercise_id', $exercideId)
             ->where('task_id', $taskId)
             ->where('user_id', $userId)
-            ->get()
-        ;
+            ->get();
     }
 
     /**
      * @return BelongsTo
      */
-    public function exerciseGroups(): BelongsTo
+    public function exerciseGroup(): BelongsTo
     {
         return $this->belongsTo(ExerciseGroup::class);
     }
 
-    public function skill(): HasOneThrough
+    public function skills(): BelongsToMany
     {
-        return $this->task->hasOneThrough(
-            Skill::class,
-            Influence::class,
-            'task_id',
-            'id',
-            'id',
-            'skill_id'
-        );
+        return $this->task->skills();
     }
 
     public function getCountMetricLabels(): array
@@ -119,7 +111,6 @@ class TaskResult extends Model
             $this->task->getKey(),
             $this->task->title,
             $this->assessment,
-
         ];
     }
 }
